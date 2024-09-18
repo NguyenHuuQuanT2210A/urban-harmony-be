@@ -9,7 +9,9 @@ public interface ProductImageService {
     void deleteProductImage(Long id);
     void deleteProductImages(Long productId);
     void deleteProductImages(List<Long> productIds);
-    List<ProductImageDTO> getProductImages(Long productId);
+    List<ProductImageDTO> getProductImages();
+    List<ProductImageDTO> getProductImagesByProductId(Long productId);
     List<ProductImageDTO> saveProductImage(Long productId, List<MultipartFile> imageFile);
     List<ProductImageDTO> updateProductImage(Long productId, List<Long> productImageIds, List<MultipartFile> imageFile);
+    List<ProductImageDTO> isProductImagesExist(List<Long> productImageIds);
 }

@@ -223,7 +223,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
 
         List<Long> productImageIds = new ArrayList<>();
-        List<ProductImageDTO> productImageDTOs = productImageService.getProductImages(existingProduct.getProductId());
+        List<ProductImageDTO> productImageDTOs = productImageService.getProductImagesByProductId(existingProduct.getProductId());
         for (ProductImageDTO productImageDTO : productImageDTOs) {
             if (!updatedProductDTO.getImages().contains(productImageDTO)) {
                 productImageIds.add(productImageDTO.getImageId());

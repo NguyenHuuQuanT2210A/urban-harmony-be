@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,6 +31,53 @@ public class ProductImageServiceImpl implements ProductImageService {
     private final ProductImageMapper productImageMapper;
     private final ProductMapper productMapper;
     private final FileStorageService fileStorageService;
+
+    @Override
+    public List<ProductImageDTO> getProductImages() {
+        return productImageRepository.findAll().stream().map(productImageMapper.INSTANCE::productImageToProductImageDTO).toList();
+    }
+
+    @Override
+    public List<ProductImageDTO> isProductImagesExist(List<Long> productImageIds) {
+        var productImages = productImageRepository.findAll();
+
+        //TH1
+//        List<ProductImageDTO> result = new ArrayList<>();
+//
+//        for (Long productImageId : productImageIds) {
+//            if (!productImageRepository.existsByImageId(productImageId)) {
+//                ProductImageDTO productImageDTO = ProductImageDTO.builder()
+//                        .imageId(productImageId)
+//                        .isProductImageExist(false)
+//                        .build();
+//                result.add(productImageDTO);
+//            }
+//        }
+//
+//        for (var productImage : productImages) {
+//            if (!productImageIds.contains(productImage.getImageId())) {
+//                ProductImageDTO productImageDTO = ProductImageDTO.builder()
+//                        .imageId(productImage.getImageId())
+//                        .imageUrl(productImage.getImageUrl())
+//                        .isProductImageExist(false)
+//                        .build();
+//                result.add(productImageDTO);
+//            }
+//        }
+
+        //TH2
+        for (Long productImageId : productImageIds) {
+            for (var productImage : productImages) {
+                if (!productImageRepository.existsByImageId(productImageId) || !productImageIds.contains(productImage.getImageId())) {
+                    return productImages.stream()
+                            .map(productImageMapper.INSTANCE::productImageToProductImageDTO)
+                            .collect(Collectors.toList());
+                }
+            }
+        }
+
+        return List.of();
+    }
 
     @Override
     public void deleteProductImage(Long id) {
@@ -74,14 +123,17 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public List<ProductImageDTO> getProductImages(Long productId) {
+    public List<ProductImageDTO> getProductImagesByProductId(Long productId) {
         ProductDTO product = getProductById(productId);
         if (product == null) {
             throw new CustomException("Product not found with id: " + productId, HttpStatus.BAD_REQUEST);
         }
         List<ProductImage> productImages = productImageRepository.findByProductProductId(productId);
 
-        return productImages.stream().map(productImageMapper.INSTANCE::productImageToProductImageDTO).collect(Collectors.toList());
+        return productImages.stream()
+                .sorted(Comparator.comparing(ProductImage::getCreatedAt)) // Sắp xếp theo createdAt
+                .map(productImageMapper.INSTANCE::productImageToProductImageDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -144,6 +196,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         }
         return updatedImages;
     }
+
 
     private ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id)

@@ -28,11 +28,27 @@ public class ProductImageController {
     private final FileStorageService fileStorageService;
     private final FileUploadService fileUploadService;
 
+    @GetMapping("/getAll")
+    ApiResponse<List<ProductImageDTO>> getProductImages() {
+        return ApiResponse.<List<ProductImageDTO>>builder()
+                .message("Get all Product Images")
+                .data(productImageSevice.getProductImages())
+                .build();
+    }
+
+    @GetMapping("/isProductImagesExist")
+    ApiResponse<List<ProductImageDTO>> isProductImagesExist(@RequestParam List<Long> productImageIds) {
+        return ApiResponse.<List<ProductImageDTO>>builder()
+                .message("Get all Product Images")
+                .data(productImageSevice.isProductImagesExist(productImageIds))
+                .build();
+    }
+
     @GetMapping("/productId/{productId}")
-    ApiResponse<List<ProductImageDTO>> getProductImages(@PathVariable Long productId) {
+    ApiResponse<List<ProductImageDTO>> getProductImagesByProductId(@PathVariable Long productId) {
         return ApiResponse.<List<ProductImageDTO>>builder()
                 .message("Get all Product Images By Product ID")
-                .data(productImageSevice.getProductImages(productId))
+                .data(productImageSevice.getProductImagesByProductId(productId))
                 .build();
     }
 
