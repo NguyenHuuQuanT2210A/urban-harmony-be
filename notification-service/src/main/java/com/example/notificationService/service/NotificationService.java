@@ -1,27 +1,29 @@
 package com.example.notificationService.service;
 
 import com.example.common.dto.response.ApiResponse;
-import com.example.common.dto.response.OrderResponse;
+import com.example.common.enums.OrderSimpleStatus;
 import com.example.common.event.CreateEventToForgotPassword;
 import com.example.common.event.CreateEventToNotification;
+import com.example.common.event.RequestUpdateStatusOrder;
 import com.example.notificationService.email.EmailService;
 
 import com.example.common.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
     private final EmailService emailService;
     private final RestTemplate restTemplate;
+    private final OrderClient orderClient;
 
     public void sendMailOrder(CreateEventToNotification orderSendMail) {
         ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + orderSendMail.getUserId(), ApiResponse.class);
@@ -35,6 +37,16 @@ public class NotificationService {
         emailParameters.add(orderSendMail.getPrice().toString());
 
         emailService.sendMail(orderSendMail.getEmail(), "Order successfully", emailParameters, "thank-you");
+    }
+
+    public void consumerUpdateStatusOrder(RequestUpdateStatusOrder requestUpdateStatusOrder) {
+        if (requestUpdateStatusOrder.getStatus()){
+            orderClient.changeStatus(requestUpdateStatusOrder.getOrderId(), OrderSimpleStatus.PENDING);
+            log.info("Order status is pending");
+        }else {
+            orderClient.changeStatus(requestUpdateStatusOrder.getOrderId(), OrderSimpleStatus.CANCEL);
+            log.info("Order status is cancel");
+        }
     }
 
     public void sendMailForgotPassword(CreateEventToForgotPassword forgotPasswordEvent) {

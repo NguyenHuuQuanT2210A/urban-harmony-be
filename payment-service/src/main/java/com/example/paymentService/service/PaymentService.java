@@ -144,8 +144,6 @@ public class PaymentService {
         paymentRepository.save(payment);
     }
 
-
-
     public void UpdateStatusOrder(Boolean a, String orderId){
         ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
 

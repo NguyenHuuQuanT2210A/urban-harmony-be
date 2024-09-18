@@ -2,6 +2,7 @@ package com.example.notificationService.kafka;
 
 import com.example.common.event.CreateEventToForgotPassword;
 import com.example.common.event.CreateEventToNotification;
+import com.example.common.event.RequestUpdateStatusOrder;
 import com.example.notificationService.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,6 +26,19 @@ public class NotificationConsumer {
         try {
             notificationService.sendMailOrder(orderSendMail);
             LOGGER.info(String.format("Send Email successfully! ", orderSendMail.getEmail()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @KafkaListener(
+            topics = "order",
+            groupId = "updateStatusOrder"
+    )
+    public void updateStatusOrder(RequestUpdateStatusOrder requestUpdateStatusOrder){
+        LOGGER.info(String.format("Update order id -> %s", requestUpdateStatusOrder.getOrderId().toString()));
+        try {
+            notificationService.consumerUpdateStatusOrder(requestUpdateStatusOrder);
         }catch (Exception e){
             e.printStackTrace();
         }
