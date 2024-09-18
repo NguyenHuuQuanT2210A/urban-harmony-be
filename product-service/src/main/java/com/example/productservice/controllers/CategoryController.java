@@ -53,6 +53,22 @@ public class CategoryController {
                 .build();
     }
 
+    @GetMapping("/parentCategory/{parentCategoryId}")
+    ApiResponse<List<CategoryDTO>> getCategoryByParentCategoryId(@PathVariable Long parentCategoryId) {
+        return ApiResponse.<List<CategoryDTO>>builder()
+                .message("Get Category By Parent Category Id")
+                .data(categoryService.getCategoryByParentCategoryId(parentCategoryId))
+                .build();
+    }
+
+    @GetMapping("/parentCategoryIsNull")
+    ApiResponse<List<CategoryDTO>> getCategoryByParentCategoryIsNull() {
+        return ApiResponse.<List<CategoryDTO>>builder()
+                .message("Get Category By Parent Category IS Null")
+                .data(categoryService.getCategoriesByParentCategoryIsNull())
+                .build();
+    }
+
     @GetMapping("/name/{name}")
     ApiResponse<List<CategoryDTO>> getCategoryByName(@PathVariable String name) {
         List<CategoryDTO> category = categoryService.getCategoryByName(name);

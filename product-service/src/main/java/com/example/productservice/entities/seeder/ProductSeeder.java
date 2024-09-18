@@ -1,7 +1,6 @@
 package com.example.productservice.entities.seeder;
 
 import com.example.productservice.entities.*;
-import com.example.productservice.helper.LocalDatetimeConverter;
 import com.example.productservice.repositories.*;
 import com.example.productservice.statics.enums.ProductSimpleStatus;
 import com.example.productservice.util.StringHelper;
@@ -41,13 +40,44 @@ public class ProductSeeder implements CommandLineRunner {
     private void createProducts() {
         List<ProductImage> productImages = new ArrayList<>();
 
+        List<String> categoriesName = Arrays.asList("Furniture", "Decorations", "Material");
+        List<String> categoryChildNames0 = Arrays.asList("Apartment Interior", "Office Interior", "Townhouse Interior", "Villa Interior", "Restaurant Interior", "Showroom Interior");
+        List<String> categoryChildNames1 = Arrays.asList("Wall Decor", "Table Decor", "Floor Decor", "Ceiling Decor", "Lighting Decor", "Furniture Decor");
+        List<String> categoryChildNames2 = Arrays.asList("Wood", "Metal", "Plastic", "Glass", "Fabric", "Leather");
+
         List<Category> categories = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            String categoryName = faker.food().ingredient();
-            Category category = new Category();
-            category.setCategoryName(categoryName);
-            categories.add(category);
+        for (int i = 0; i < categoriesName.toArray().length; i++) {
+            Category categoryParent = new Category();
+            categoryParent.setCategoryName(categoriesName.get(i));
+            categoryParent.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+            categories.add(categoryParent);
+            if (i == 0) {
+                for (String categoryChildName : categoryChildNames0) {
+                    Category categoryChild = new Category();
+                    categoryChild.setCategoryName(categoryChildName);
+                    categoryChild.setParentCategory(categoryParent);
+                    categoryChild.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                    categories.add(categoryChild);
+                }
+            } else if (i == 1) {
+                for (String categoryChildName : categoryChildNames1) {
+                    Category categoryChild = new Category();
+                    categoryChild.setCategoryName(categoryChildName);
+                    categoryChild.setParentCategory(categoryParent);
+                    categoryChild.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                    categories.add(categoryChild);
+                }
+            }else {
+                for (String categoryChildName : categoryChildNames2) {
+                    Category categoryChild = new Category();
+                    categoryChild.setCategoryName(categoryChildName);
+                    categoryChild.setParentCategory(categoryParent);
+                    categoryChild.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                    categories.add(categoryChild);
+                }
+            }
         }
+
         categoryRepository.saveAll(categories);
 
         boolean nameExisting = false;
@@ -91,14 +121,14 @@ public class ProductSeeder implements CommandLineRunner {
         }
         productRepository.saveAll(products);
 
-        for (int j = 0; j < 30; j++) {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(products.get(faker.number().numberBetween(0, 19)));
-            productImage.setImageUrl("img-url-" + j + ".jpg");
-            productImages.add(productImage);
-        }
-
-        productImageRepository.saveAll(productImages);
+//        for (int j = 0; j < 30; j++) {
+//            ProductImage productImage = new ProductImage();
+//            productImage.setProduct(products.get(faker.number().numberBetween(0, 19)));
+//            productImage.setImageUrl("img-url-" + j + ".jpg");
+//            productImages.add(productImage);
+//        }
+//
+//        productImageRepository.saveAll(productImages);
     }
 
 }

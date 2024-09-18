@@ -36,6 +36,16 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    public List<CategoryDTO> getCategoryByParentCategoryId(Long parentCategoryId) {
+        return categoryRepository.findByParentCategoryId(parentCategoryId).stream().map(CategoryMapper.INSTANCE::categoryToCategoryDTO).toList();
+    }
+
+    @Override
+    public List<CategoryDTO> getCategoriesByParentCategoryIsNull() {
+        return categoryRepository.findByParentCategoryIsNull().stream().map(CategoryMapper.INSTANCE::categoryToCategoryDTO).toList();
+    }
+
+    @Override
     public CategoryDTO addCategory(CategoryDTO categoryDTO) {
 
         if(categoryRepository.existsByCategoryName(categoryDTO.getCategoryName())){
@@ -43,6 +53,9 @@ public class CategoryServiceImpl implements CategoryService{
         }
 
         Category category = CategoryMapper.INSTANCE.categoryDTOToCategory(categoryDTO);
+        if (categoryDTO.getParentCategoryId() != 0){
+            category.setParentCategory(findCategoryById(categoryDTO.getParentCategoryId()));
+        }
         categoryRepository.save(category);
         return CategoryMapper.INSTANCE.categoryToCategoryDTO(category);
     }
@@ -57,6 +70,10 @@ public class CategoryServiceImpl implements CategoryService{
 
         if (categoryRepository.existsByCategoryName(updatedCategoryDTO.getCategoryName()) && !updatedCategoryDTO.getCategoryName().equals(category.getCategoryName())) {
             throw new CustomException("Category already exists with name: " + updatedCategoryDTO.getCategoryName(), HttpStatus.BAD_REQUEST);
+        }
+
+        if (updatedCategoryDTO.getParentCategoryId() != 0 && !updatedCategoryDTO.getParentCategoryId().equals(category.getCategoryId())) {
+            category.setParentCategory(findCategoryById(updatedCategoryDTO.getParentCategoryId()));
         }
 
         category.setCategoryName(updatedCategoryDTO.getCategoryName());

@@ -11,6 +11,8 @@ import java.util.List;
 public interface CategoryService {
     Page<CategoryDTO> getAllCategory(Pageable pageable);
     CategoryDTO getCategoryById(Long id);
+    List<CategoryDTO> getCategoryByParentCategoryId(Long parentCategoryId);
+    List<CategoryDTO> getCategoriesByParentCategoryIsNull();
     CategoryDTO addCategory(CategoryDTO categoryDTO);
     void updateCategory(Long id, CategoryDTO categoryDTO);
     void deleteCategory(Long id);
