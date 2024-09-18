@@ -243,6 +243,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = findProductById(id);
 //        redisService.delete(PRODUCT_ID + id);
 
+        product.setSoldQuantity(product.getSoldQuantity() + (product.getStockQuantity() - stockQuantity));
         product.setStockQuantity(stockQuantity);
         productRepository.save(product);
 

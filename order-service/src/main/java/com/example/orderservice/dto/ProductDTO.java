@@ -39,6 +39,8 @@ public class ProductDTO {
 
     private String weight;
 
+    private Long soldQuantity;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

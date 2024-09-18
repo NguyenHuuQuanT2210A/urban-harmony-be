@@ -36,4 +36,6 @@ public class ProductDTO {
     private String size;
 
     private String weight;
+
+    private Long soldQuantity;
 }

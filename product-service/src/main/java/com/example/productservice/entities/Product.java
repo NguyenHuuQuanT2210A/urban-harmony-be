@@ -3,6 +3,8 @@ package com.example.productservice.entities;
 import com.example.productservice.entities.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -42,6 +44,10 @@ public class Product extends BaseEntity {
     private String size;
 
     private String weight;
+
+    @ColumnDefault("0")
+    private Long soldQuantity;
+
 
     public Product(long l, String s, int i) {
         this.productId = l;

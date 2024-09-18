@@ -22,5 +22,6 @@ public class ProductResponse implements Serializable {
     String manufacturer;
     String size;
     String weight;
+    Long soldQuantity;
     Set<ProductImageResponse> images;
 }
