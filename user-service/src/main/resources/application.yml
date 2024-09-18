@@ -84,9 +84,6 @@ file:
   upload-user-image-dir: ./uploads/userimage
   upload-thumbnail-image-dir: ./uploads/thumbnailimage
 
-
-
-
 eureka:
   instance:
     hostname: localhost
