@@ -17,20 +17,10 @@ import java.util.Set;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderRequest {
-//    @Id
-//    @GeneratedValue(generator = "uuid")
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    // custom string id
     private String id;
     private Long userId;
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String address;
-    private String phone;
-    private String country;
-    private String postalCode;
+    private Long addressOrderId;
     private String note;
     private String paymentMethod;
 

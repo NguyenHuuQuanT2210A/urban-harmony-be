@@ -133,9 +133,14 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException("Can not find category with id " + productDTO.getCategoryId(), HttpStatus.NOT_FOUND);
         }
 
+        if (Objects.equals(imageFiles.get(0).getOriginalFilename(), "")){
+            throw new CustomException("Images is required", HttpStatus.BAD_REQUEST);
+        }
+
         Product product = productMapper.INSTANCE.productDTOToProduct(productDTO);
 
         product.setCategory(categoryMapper.INSTANCE.categoryDTOToCategory(categoryDTO));
+        product.setSoldQuantity(0L);
 
         productRepository.save(product);
 

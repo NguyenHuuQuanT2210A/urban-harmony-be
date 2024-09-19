@@ -105,6 +105,7 @@ public class ProductSeeder implements CommandLineRunner {
             product.setName(productName);
             product.setCategory(categories.get(faker.number().numberBetween(0, 6)));
             product.setStockQuantity(faker.number().numberBetween(1, 100));
+            product.setSoldQuantity(0L);
 //            product.setSlug(slug);
             product.setDescription(description);
 //            product.setThumbnails("demo-img.jpg");

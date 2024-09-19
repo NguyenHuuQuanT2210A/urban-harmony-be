@@ -18,4 +18,7 @@ public class FileStorageProperties {
 
     private String uploadThumbnailImageDir;
 
+    private String uploadDesignImageDir;
+
+    private String uploadBlogImageDir;
 }

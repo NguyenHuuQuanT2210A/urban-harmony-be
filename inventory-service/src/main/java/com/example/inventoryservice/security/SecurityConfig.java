@@ -20,6 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     @Autowired
     private AuthTokenFilter authTokenFilter;
+
+    private static final String[] PUBLIC_ENDPOINTS = {
+            "/api/v1/blogs/getAll/**",
+            "/api/v1/blogs/id/{id}",
+            "/api/v1/blogs/blog/**"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -30,6 +37,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)  // Vô hiệu hóa CSRF
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
+                                        .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                                        .requestMatchers("/api/v1/inventory/**").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )

@@ -21,13 +21,12 @@ public class OrderDTO {
     private String id;
     private Long userId;
     private BigDecimal totalPrice;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String address;
+
+    private String username;
+    private String addressRegion;
+    private String addressDetail;
     private String phone;
-    private String country;
-    private String postalCode;
+    private String email;
     private String note;
     private String paymentMethod;
 

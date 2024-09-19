@@ -52,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentClient paymentClient;
     private final CartClient cartClient;
     private final CartRedisClient cartRedisClient;
+    private final AddressOrderClient addressOrderClient;
 
     Specification<jakarta.persistence.criteria.Order> specification = Specification.where(null);
 
@@ -130,11 +131,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public OrderDTO findById(String id){
-        var orderResponse = orderMapper.toOrderDTO(findOrderById(id));
+        var order = findOrderById(id);
+        var orderResponse = orderMapper.toOrderDTO(order);
         orderResponse.getOrderDetails().forEach(orderDetailResponse -> {
             var data = productService.getProductById(orderDetailResponse.getId().getProductId());
             orderDetailResponse.setProduct(data.getData());
         });
+        var address = addressOrderClient.getAddressOrderById(order.getAddressOrderId()).getData();
+        orderResponse.setUsername(address.getUsername());
+        orderResponse.setAddressRegion(address.getAddressRegion());
+        orderResponse.setAddressDetail(address.getAddressDetail());
+        orderResponse.setPhone(address.getPhone());
+        orderResponse.setEmail(userService.getUserById(order.getUserId()).getData().getEmail());
 
         return orderResponse;
     }
@@ -147,6 +155,8 @@ public class OrderServiceImpl implements OrderService {
             ApiResponse<UserDTO> user = userService.getUserById(request.getUserId());
             if (user.getData() == null) {
                 throw new CustomException("User not found", HttpStatus.BAD_REQUEST);
+            } else if (addressOrderClient.getAddressOrderById(request.getAddressOrderId()) == null) {
+                throw new CustomException("Address not found", HttpStatus.BAD_REQUEST);
             }
             try {
                 newOrder = orderMapper.orderDTOToOrder(request);
