@@ -19,6 +19,7 @@ import com.example.orderservice.mapper.OrderDetailMapper;
 import com.example.orderservice.mapper.OrderMapper;
 import com.example.orderservice.repositories.FeedbackRepository;
 import com.example.orderservice.repositories.OrderRepository;
+import com.example.orderservice.repositories.specification.SpecSearchCriteria;
 import com.example.orderservice.specification.OrderSpecification;
 import com.example.orderservice.specification.SearchBody;
 import com.example.orderservice.specification.SearchCriteria;
@@ -33,10 +34,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static com.example.orderservice.repositories.specification.SearchOperation.OR_PREDICATE_FLAG;
+import static com.example.orderservice.util.AppConst.SEARCH_SPEC_OPERATOR;
+import static com.example.orderservice.util.AppConst.SORT_BY;
 
 @Service
 @RequiredArgsConstructor
@@ -307,7 +315,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public OrderDTO findCartByUserId(Long id) {
-        return orderMapper.INSTANCE.toOrderDTO(orderRepository.findOrderByUserIdAndStatus(id, OrderSimpleStatus.CREATED));
+        return null;
+//        return orderMapper.INSTANCE.toOrderDTO(orderRepository.findOrderByUserIdAndStatus(id, OrderSimpleStatus.CREATED));
     }
 
     @Override
@@ -360,7 +369,77 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.count();
     }
 
+    @Override
+    public Page<OrderDTO> findOrderByUserIdAndStatus(Long userId, OrderSimpleStatus status, Pageable pageable) {
+        return orderRepository.findOrderByUserIdAndStatus(userId, status, pageable).map(orderMapper.INSTANCE::toOrderDTO);
+    }
+
     private Order findOrderById(String id) {
         return orderRepository.findById(id).orElseThrow(() -> new CustomException("Order not found", HttpStatus.NOT_FOUND));
     }
+
+    @Override
+    public Page<OrderDTO> searchBySpecification(Pageable pageable, String sort, String[] order) {
+        Pageable pageableSorted = pageable;
+        if (StringUtils.hasText(sort)){
+            Pattern patternSort = Pattern.compile(SORT_BY);
+            Matcher matcher = patternSort.matcher(sort);
+            if (matcher.find()) {
+                String columnName = matcher.group(1);
+                pageableSorted = matcher.group(3).equalsIgnoreCase("desc")
+                        ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(columnName).descending())
+                        : PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(columnName).ascending());
+            }
+        }
+
+        List<SpecSearchCriteria> params = new ArrayList<>();
+        Pattern pattern = Pattern.compile(SEARCH_SPEC_OPERATOR);
+        if (order != null) {
+            params.addAll(parseOrderCriteria(order, pattern));
+        }
+
+        if (params.isEmpty()) {
+            return orderRepository.findAll(pageableSorted).map(orderMapper.INSTANCE::toOrderDTO);
+        }
+
+        Specification<Order> result = new com.example.orderservice.repositories.specification.OrderSpecification(params.get(0));
+        for (int i = 1; i < params.size(); i++) {
+            result = params.get(i).getOrPredicate()
+                    ? Specification.where(result).or(new com.example.orderservice.repositories.specification.OrderSpecification(params.get(i)))
+                    : Specification.where(result).and(new com.example.orderservice.repositories.specification.OrderSpecification(params.get(i)));
+        }
+
+        Page<Order> orders = orderRepository.findAll(Objects.requireNonNull(result), pageableSorted);
+        return orders.map(orderMapper.INSTANCE::toOrderDTO);
+    }
+
+    private List<SpecSearchCriteria> parseOrderCriteria(String[] order, Pattern pattern) {
+        List<SpecSearchCriteria> params = new ArrayList<>();
+        for (String o : order) {
+            Matcher matcher = pattern.matcher(o);
+            if (matcher.find()) {
+                SpecSearchCriteria searchCriteria = new SpecSearchCriteria(null, matcher.group(2), matcher.group(4), matcher.group(6), matcher.group(1), matcher.group(3), matcher.group(5));
+                if (o.startsWith(OR_PREDICATE_FLAG)) {
+                    searchCriteria.setOrPredicate(true);
+                }
+                params.add(searchCriteria);
+            }
+        }
+        return params;
+    }
+
+    private List<SpecSearchCriteria> parseAddressOrderCriteria(String addressOrder, Pattern pattern) {
+        List<SpecSearchCriteria> params = new ArrayList<>();
+        Matcher matcher = pattern.matcher(addressOrder);
+        if (matcher.find()) {
+            SpecSearchCriteria searchCriteria = new SpecSearchCriteria(null, matcher.group(2), matcher.group(4), matcher.group(6), matcher.group(1), matcher.group(3), matcher.group(5));
+            if (addressOrder.startsWith(OR_PREDICATE_FLAG)){
+                searchCriteria.setOrPredicate(true);
+            }
+            params.add(searchCriteria);
+        }
+        return params;
+    }
+
+
 }

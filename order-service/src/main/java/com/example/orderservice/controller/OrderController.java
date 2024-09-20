@@ -8,6 +8,7 @@ import com.example.orderservice.specification.SearchBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,17 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Order", description = "Order Controller")
 public class OrderController {
     private final OrderService orderService;
+
+    @GetMapping("/search-by-specification")
+    ApiResponse<?> advanceSearchBySpecification(@RequestParam(defaultValue = "1", name = "page") int page,
+                                                @RequestParam(defaultValue = "10", name = "limit") int limit,
+                                                @RequestParam(required = false) String sort,
+                                                @RequestParam(required = false) String[] order) {
+        return ApiResponse.builder()
+                .message("List of Orders")
+                .data(orderService.searchBySpecification(PageRequest.of(page -1, limit), sort, order))
+                .build();
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
@@ -49,6 +61,16 @@ public class OrderController {
         return ApiResponse.builder()
                 .message("Get Order by Id")
                 .data(orderService.findById(id))
+                .build();
+    }
+
+    @GetMapping("/user/{userId}/status")
+    public ApiResponse<?> getOrderByUserIdAndStatus(@PathVariable Long userId, @RequestParam OrderSimpleStatus status,
+                                                    @RequestParam(defaultValue = "1", name = "page") int page,
+                                                    @RequestParam(defaultValue = "10", name = "limit") int limit) {
+        return ApiResponse.builder()
+                .message("Get Order by user Id and status")
+                .data(orderService.findOrderByUserIdAndStatus(userId, status, PageRequest.of(page - 1, limit, Sort.Direction.DESC, "createdAt")))
                 .build();
     }
 

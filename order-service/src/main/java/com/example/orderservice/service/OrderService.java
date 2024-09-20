@@ -6,6 +6,7 @@ import com.example.common.enums.OrderSimpleStatus;
 import com.example.orderservice.dto.request.OrderRequest;
 import com.example.orderservice.specification.SearchBody;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public interface OrderService {
     List<ProductDTO> findProductsByOrderId(String orderId);
 
     Long countOrders();
+
+    Page<OrderDTO> searchBySpecification(Pageable pageable, String sort, String[] order);
+
+    Page<OrderDTO> findOrderByUserIdAndStatus(Long userId, OrderSimpleStatus status, Pageable pageable);
 }
 
 
