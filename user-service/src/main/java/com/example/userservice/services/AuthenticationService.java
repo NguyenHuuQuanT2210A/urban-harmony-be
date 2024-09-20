@@ -94,17 +94,9 @@ public class AuthenticationService {
 
         Set<Role> roles = new HashSet<>();
 
-        for (String role : signUpRequest.getRole()) {
-            if (role.equals("ROLE_DESIGNER")) {
-                Role adminRole = roleRepository.findByName(ERole.ROLE_DESIGNER)
-                        .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));
-                roles.add(adminRole);
-            } else if (role.equals("ROLE_USER")){
-                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                        .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));
-                roles.add(userRole);
-            }
-        }
+        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));
+        roles.add(userRole);
 
         user.setRoles(roles);
         userRepository.save(user);

@@ -235,12 +235,6 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         productImageService.updateProductImage(existingProduct.getProductId(), productImageIds , imageFiles);
-
-        //redis
-//        if (redisService.keyExists(PRODUCT_ID + id)) {
-//            redisService.delete(PRODUCT_ID + id);
-//        }
-//        redisService.getKeyPrefixes("get_products" + "*").forEach(redisService::delete);
     }
 
     @Override

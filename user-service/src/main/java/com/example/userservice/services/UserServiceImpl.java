@@ -182,6 +182,11 @@ public class UserServiceImpl implements UserService {
                                 .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));
                         roles.add(modRole);
                     }
+                    case "designer" -> {
+                        Role modRole = roleRepository.findByName(ERole.ROLE_DESIGNER)
+                                .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));
+                        roles.add(modRole);
+                    }
                     default -> {
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new CustomException("Error: Role is not found.", HttpStatus.NOT_FOUND));

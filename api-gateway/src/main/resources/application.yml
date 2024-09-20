@@ -43,6 +43,20 @@ spring:
           filters:
             - JwtAuthenticationFilter
 
+        - id: designer_profile-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/designer_profile/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: image_design_designer-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/image_design_designer/**
+          filters:
+            - JwtAuthenticationFilter
+
 #        product-service
         - id: categories-service
           uri: http://localhost:8082

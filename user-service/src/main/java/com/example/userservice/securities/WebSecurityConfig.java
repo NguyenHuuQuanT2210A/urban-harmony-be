@@ -64,6 +64,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                             .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+//                                .requestMatchers("/api/v1/image_design_designer/**").hasRole("DESIGNER")
+//                                .requestMatchers("/api/v1/designer_profile/**").hasRole("DESIGNER")
 //                            .requestMatchers("/oauth2/user").authenticated()
 //                            .requestMatchers("/api/v1/users/**").permitAll() // Yêu cầu xác thực cho /api/v1/**
 //                            .requestMatchers("/api/private/**").hasRole("ADMIN")//.anyRequest().hasAnyRole("ADMIN") // Yêu cầu xác thực cho /api/private/**

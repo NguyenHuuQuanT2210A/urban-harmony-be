@@ -22,6 +22,7 @@ public class FileStorageService {
     private final Path fileProductImageStorageLocation;
     private final Path fileUserImageStorageLocation;
     private final Path fileThumbnailImageStorageLocation;
+    private final Path fileDesignerDesignImageStorageLocation;
 
     public FileStorageService(FileStorageProperties fileStorageProperties) {
         this.fileLogoStorageLocation = Paths.get(fileStorageProperties.getUploadLogoDir())
@@ -32,11 +33,14 @@ public class FileStorageService {
                 .toAbsolutePath().normalize();
         this.fileThumbnailImageStorageLocation = Paths.get(fileStorageProperties.getUploadThumbnailImageDir())
                 .toAbsolutePath().normalize();
+        this.fileDesignerDesignImageStorageLocation = Paths.get(fileStorageProperties.getUploadDesignerDesignImageDir())
+                .toAbsolutePath().normalize();
         try {
             Files.createDirectories(fileLogoStorageLocation);
             Files.createDirectories(fileProductImageStorageLocation);
             Files.createDirectories(fileUserImageStorageLocation);
             Files.createDirectories(fileThumbnailImageStorageLocation);
+            Files.createDirectories(fileDesignerDesignImageStorageLocation);
         }catch (Exception ex){
             throw new CustomException("File upload fail " + ex, HttpStatus.BAD_REQUEST);
         }
@@ -45,6 +49,10 @@ public class FileStorageService {
     public  String storeLogoFile(MultipartFile file){
         return storeFile(fileLogoStorageLocation,file);
     }
+    public  String storeDesignerDesignImageFile(MultipartFile file){
+        return storeFile(fileDesignerDesignImageStorageLocation,file);
+    }
+
     public  String storeProductImageFile(MultipartFile file){
         return storeFile(fileProductImageStorageLocation,file);
     }
@@ -82,6 +90,10 @@ public class FileStorageService {
         return  loadFileAsResource(fileProductImageStorageLocation,filename);
     }
 
+    public Resource loadDesignerDesignImageFileAsResource(String filename){
+        return  loadFileAsResource(fileDesignerDesignImageStorageLocation,filename);
+    }
+
     public Resource loadUserImageFileAsResource(String filename){
         return  loadFileAsResource(fileUserImageStorageLocation,filename);
     }
@@ -112,6 +124,10 @@ public class FileStorageService {
 
     public void deleteProductImageFile(String filename){
         deleteFile(fileProductImageStorageLocation,filename);
+    }
+
+    public void deleteDesignerDesignImageFile(String filename){
+        deleteFile(fileDesignerDesignImageStorageLocation,filename);
     }
 
     public void deleteUserImageFile(String filename){
