@@ -40,7 +40,7 @@ public class AppointmentController {
                 .build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ApiResponse<AppointmentResponse> getAppointmentById(@PathVariable Long id) {
         return ApiResponse.<AppointmentResponse>builder()
                 .message("Get Appointment by Id")

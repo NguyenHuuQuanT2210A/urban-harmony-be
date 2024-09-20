@@ -35,7 +35,13 @@ public class WebSecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/users/{id}", "/api/v1/roles/**", "/api/v1/white_list/product/**"
+            "/api/v1/auth/login",
+            "/api/v1/auth/register",
+            "/api/v1/users/{id}",
+            "/api/v1/roles/**",
+            "/api/v1/white_list/product/**",
+            "/api/v1/appointments/designer/{designerId}",
+            "/api/v1/appointments/id/{id}",
     };
 
     @Bean

@@ -84,6 +84,7 @@ file:
   upload-user-image-dir: ./uploads/userimage
   upload-thumbnail-image-dir: ./uploads/thumbnailimage
   upload-designer-design-image-dir: ./uploads/designerdesignimage
+  upload-room-specification-image-dir: ./uploads/roomspecificationimage
 
 eureka:
   instance:
