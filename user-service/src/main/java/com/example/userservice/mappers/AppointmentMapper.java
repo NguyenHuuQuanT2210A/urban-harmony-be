@@ -17,8 +17,8 @@ public interface AppointmentMapper {
 
     Appointment toAppointment(AppointmentRequest request);
 
-    @Mapping(source = "designer.id", target = "designerId")
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "designer", target = "designer")
+    @Mapping(source = "user", target = "user")
     AppointmentResponse toAppointmentResponse(Appointment appointment);
     void updateAppointment(@MappingTarget Appointment appointment, AppointmentRequest request);
     Appointment appointmentResponseToAppointment(AppointmentResponse response);

@@ -1,5 +1,6 @@
 package com.example.userservice.dtos.response;
 
+import com.example.userservice.dtos.UserDTO;
 import com.example.userservice.statics.enums.AppointmentStatus;
 import lombok.*;
 
@@ -16,6 +17,6 @@ public class AppointmentResponse {
     private LocalDateTime datetimeEnd;
     private AppointmentStatus status;
     private String appointmentUrl;
-    private Long designerId;
-    private Long userId;
+    private UserDTO designer;
+    private UserDTO user;
 }

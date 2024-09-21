@@ -8,13 +8,13 @@ import com.example.userservice.entities.DesignerProfile;
 import com.example.userservice.entities.User;
 import com.example.userservice.exceptions.CustomException;
 import com.example.userservice.mappers.DesignerProfileMapper;
+import com.example.userservice.mappers.ImageDesignDesignerMapper;
 import com.example.userservice.mappers.UserMapper;
 import com.example.userservice.repositories.DesignerProfileRepository;
 import com.example.userservice.services.DesignerProfileService;
 import com.example.userservice.services.FileStorageService;
 import com.example.userservice.services.ImageDesignDesignerService;
 import com.example.userservice.services.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,6 +34,7 @@ import java.util.*;
 public class DesignerProfileServiceImpl implements DesignerProfileService {
     private final DesignerProfileRepository designerProfileRepository;
     private final DesignerProfileMapper designerProfileMapper;
+    private final ImageDesignDesignerMapper imageDesignDesignerMapper;
     private final ImageDesignDesignerService imageDesignDesignerService;
     private final UserService userService;
     private final UserMapper userMapper;
@@ -49,22 +51,34 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
         if (designerProfile == null) {
             throw new CustomException("DesignerProfile not found with name: " + name, HttpStatus.BAD_REQUEST);
         }
-        return designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
+        var designerProfileResponse = designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
+        designerProfileResponse.setImagesDesignDesigner(getImageDesignDesignerResponses(designerProfile));
+        return designerProfileResponse;
     }
 
     @Override
     public DesignerProfileResponse getDesignerProfileById(Long id) {
         DesignerProfile designerProfile = findDesignerProfileById(id);
         var designerProfileResponse = designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
-
+        designerProfileResponse.setImagesDesignDesigner(getImageDesignDesignerResponses(designerProfile));
         return designerProfileResponse;
     }
 
     @Override
     public DesignerProfileResponse getDesignerProfileByUserId(Long userId) {
-        return designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfileRepository.findByUserIdAndDeletedAtIsNull(userId));
+        DesignerProfile designerProfile = designerProfileRepository.findByUserIdAndDeletedAtIsNull(userId);
+        var designerProfileResponse =  designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
+        designerProfileResponse.setImagesDesignDesigner(getImageDesignDesignerResponses(designerProfile));
+
+        return designerProfileResponse;
     }
 
+    private Set<ImageDesignDesignerResponse> getImageDesignDesignerResponses(DesignerProfile designerProfile) {
+        return designerProfile.getImageDesignDesigner()
+                .stream()
+                .map(imageDesignDesignerMapper.INSTANCE::toImageDesignDesignerResponse)
+                .collect(Collectors.toSet());
+    }
 
     @Override
     public void addDesignerProfile(DesignerProfileRequest request, List<MultipartFile> imageFiles, MultipartFile avatar) {
@@ -85,6 +99,7 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
         DesignerProfile designerProfile = designerProfileMapper.INSTANCE.toDesignerProfile(request);
         designerProfile.setAvatar(fileStorageService.storeUserImageFile(avatar));
         designerProfile.setUser(userMapper.INSTANCE.userDTOToUser(userDTO));
+        designerProfile.setStatus("PENDING");
 
         designerProfileRepository.save(designerProfile);
 
@@ -155,6 +170,16 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
             }
         }
         imageDesignDesignerService.updateImageDesignDesigner(existingDesignerProfile.getId(), designerProfileImageIds , imageFiles);
+    }
+
+    @Override
+    public DesignerProfileResponse updateStatusDesignerProfile(Long id, String status) {
+        DesignerProfile designerProfile = findDesignerProfileById(id);
+        designerProfile.setStatus(status);
+        var designerProfileResponse =  designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
+        designerProfileResponse.setImagesDesignDesigner(getImageDesignDesignerResponses(designerProfile));
+
+        return designerProfileResponse;
     }
 
 

@@ -17,6 +17,7 @@ public interface DesignerProfileService {
     DesignerProfileResponse getDesignerProfileByUserId(Long userId);
     void addDesignerProfile(DesignerProfileRequest request, List<MultipartFile> imageFiles, MultipartFile avatar);
     void updateDesignerProfile(Long id, DesignerProfileRequest request, List<MultipartFile> imageFiles, MultipartFile avatar);
+    DesignerProfileResponse updateStatusDesignerProfile(Long id, String status);
     void deleteDesignerProfile(Long id);
     void moveToTrash(Long id);
     Page<DesignerProfileResponse> getInTrash(Pageable pageable);

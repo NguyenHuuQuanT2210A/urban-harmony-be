@@ -30,6 +30,8 @@ public class DesignerProfile extends BaseEntity {
     private String education;
     private String certifications;
 
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;

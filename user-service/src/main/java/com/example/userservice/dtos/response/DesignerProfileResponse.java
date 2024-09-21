@@ -25,6 +25,9 @@ public class DesignerProfileResponse {
     private String education;
     private String certifications;
     private Long userId;
+
+    private String status;
+
     private Set<ImageDesignDesignerResponse> imagesDesignDesigner;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

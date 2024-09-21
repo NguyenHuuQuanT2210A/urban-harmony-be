@@ -106,6 +106,14 @@ public class DesignerProfileController {
                 .build());
     }
 
+    @PutMapping("/updateStatus/{id}")
+    ApiResponse<DesignerProfileResponse> updateStatusDesignerProfile(@PathVariable Long id, @RequestParam String status) {
+        return ApiResponse.<DesignerProfileResponse>builder()
+                .message("Get Designer Profiles by User Id")
+                .data(designerProfileService.updateStatusDesignerProfile(id, status))
+                .build();
+    }
+
     @DeleteMapping("/in-trash/{id}")
     ApiResponse<?> moveToTrash(@PathVariable Long id) {
         designerProfileService.moveToTrash(id);
