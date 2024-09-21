@@ -47,6 +47,14 @@ public class OrderController {
                 .build();
     }
 
+    @GetMapping("/count/status")
+    public ApiResponse<Long> getCountByStatusOrder(OrderSimpleStatus status) {
+        return ApiResponse.<Long>builder()
+                .message("Get Count By Status Order")
+                .data(orderService.getCountByStatusOrder(status))
+                .build();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "search")
     public ApiResponse<?> getAllOrders(@RequestBody SearchBody search) {

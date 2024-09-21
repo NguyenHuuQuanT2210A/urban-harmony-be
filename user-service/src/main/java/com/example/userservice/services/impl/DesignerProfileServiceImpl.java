@@ -5,16 +5,17 @@ import com.example.userservice.dtos.request.DesignerProfileRequest;
 import com.example.userservice.dtos.response.DesignerProfileResponse;
 import com.example.userservice.dtos.response.ImageDesignDesignerResponse;
 import com.example.userservice.entities.DesignerProfile;
+import com.example.userservice.entities.Role;
 import com.example.userservice.entities.User;
 import com.example.userservice.exceptions.CustomException;
 import com.example.userservice.mappers.DesignerProfileMapper;
 import com.example.userservice.mappers.ImageDesignDesignerMapper;
 import com.example.userservice.mappers.UserMapper;
 import com.example.userservice.repositories.DesignerProfileRepository;
-import com.example.userservice.services.DesignerProfileService;
-import com.example.userservice.services.FileStorageService;
-import com.example.userservice.services.ImageDesignDesignerService;
-import com.example.userservice.services.UserService;
+import com.example.userservice.repositories.RoleRepository;
+import com.example.userservice.repositories.UserRepository;
+import com.example.userservice.services.*;
+import com.example.userservice.statics.enums.ERole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,8 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
     private final UserService userService;
     private final UserMapper userMapper;
     private final FileStorageService fileStorageService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public Long countDesignerProfiles() {
@@ -176,9 +179,17 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
     public DesignerProfileResponse updateStatusDesignerProfile(Long id, String status) {
         DesignerProfile designerProfile = findDesignerProfileById(id);
         designerProfile.setStatus(status);
-        var designerProfileResponse =  designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfile);
+        if (status.equals("ACCEPTED")) {
+            User user = userRepository.findById(designerProfile.getUser().getId()).orElseThrow(() -> new CustomException("User not found with id: " + designerProfile.getUser().getId(), HttpStatus.BAD_REQUEST));
+            Set<Role> roles = new HashSet<>(user.getRoles());
+            Role designerRole = roleRepository.findByName(ERole.ROLE_DESIGNER)
+                    .orElseThrow(() -> new CustomException("Role not found", HttpStatus.BAD_REQUEST));
+            roles.add(designerRole);
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+        var designerProfileResponse =  designerProfileMapper.INSTANCE.toDesignerProfileResponse(designerProfileRepository.save(designerProfile));
         designerProfileResponse.setImagesDesignDesigner(getImageDesignDesignerResponses(designerProfile));
-
         return designerProfileResponse;
     }
 

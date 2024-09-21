@@ -374,6 +374,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrderByUserIdAndStatus(userId, status, pageable).map(orderMapper.INSTANCE::toOrderDTO);
     }
 
+    @Override
+    public Long getCountByStatusOrder(OrderSimpleStatus status) {
+        return orderRepository.countOrdersByStatus(status);
+    }
+
     private Order findOrderById(String id) {
         return orderRepository.findById(id).orElseThrow(() -> new CustomException("Order not found", HttpStatus.NOT_FOUND));
     }

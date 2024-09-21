@@ -29,6 +29,8 @@ public interface OrderService {
     Page<OrderDTO> searchBySpecification(Pageable pageable, String sort, String[] order);
 
     Page<OrderDTO> findOrderByUserIdAndStatus(Long userId, OrderSimpleStatus status, Pageable pageable);
+
+    Long getCountByStatusOrder(OrderSimpleStatus status);
 }
 
 

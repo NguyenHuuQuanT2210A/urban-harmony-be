@@ -18,4 +18,5 @@ public interface OrderRepository extends JpaRepository<Order, String>, JpaSpecif
     Page<Order> findOrderByUserId(Long userId, Specification specification, Pageable pageable);
     List<Order> findByUserId(Long userId);
     Page<Order> findOrderByUserIdAndStatus(Long userId, OrderSimpleStatus status, Pageable pageable);
+    Long countOrdersByStatus(OrderSimpleStatus status);
 }

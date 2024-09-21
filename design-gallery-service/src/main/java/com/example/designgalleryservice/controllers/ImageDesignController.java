@@ -1,6 +1,5 @@
 package com.example.designgalleryservice.controllers;
 
-import com.example.designgalleryservice.dto.FileUploadedDTO;
 import com.example.designgalleryservice.dto.request.ImagesDesignRequest;
 import com.example.designgalleryservice.dto.response.ApiResponse;
 import com.example.designgalleryservice.dto.response.ImagesDesignResponse;
@@ -17,12 +16,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -32,31 +29,39 @@ import java.util.stream.Collectors;
 public class ImageDesignController {
     private final ImagesDesignService imagesDesignService;
     private final FileStorageService fileStorageService;
-    private final FileUploadService fileUploadService;
 
     @GetMapping("/categoryGalleryId/{categoryGalleryId}")
-    ApiResponse<Page<ImagesDesignResponse>> getProductImages(@PathVariable int categoryGalleryId,
+    ApiResponse<Page<ImagesDesignResponse>> getImagesDesignByCategoryGalleryId(@PathVariable int categoryGalleryId,
                                                              @RequestParam(defaultValue = "1", name = "page") int page,
                                                              @RequestParam(defaultValue = "10", name = "limit") int limit) {
         return ApiResponse.<Page<ImagesDesignResponse>>builder()
-                .message("Get all Product Images By Product ID")
-                .data(imagesDesignService.getImagesDesigns(categoryGalleryId, PageRequest.of(page - 1, limit)))
+                .message("Get all Product Images By category Gallery ID")
+                .data(imagesDesignService.getImagesDesignsByCategoryGalleryId(categoryGalleryId, PageRequest.of(page - 1, limit)))
+                .build();
+    }
+
+    @GetMapping("/getAll")
+    ApiResponse<Page<ImagesDesignResponse>> getImagesDesign(@RequestParam(defaultValue = "1", name = "page") int page,
+                                                             @RequestParam(defaultValue = "10", name = "limit") int limit) {
+        return ApiResponse.<Page<ImagesDesignResponse>>builder()
+                .message("Get all Product Image")
+                .data(imagesDesignService.getImagesDesigns(PageRequest.of(page - 1, limit)))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    void deleteProductImage(@PathVariable Long id) {
+    void deleteImagesDesign(@PathVariable Long id) {
         imagesDesignService.deleteImagesDesign(id);
     }
 
     @DeleteMapping("/categoryGalleryId/{categoryGalleryId}")
-    void deleteProductImages(@PathVariable int categoryGalleryId) {
+    void deleteImagesDesign(@PathVariable int categoryGalleryId) {
         imagesDesignService.deleteImagesDesigns(categoryGalleryId);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ApiResponse<?> saveProductImage(@RequestPart("imagesDesign")ImagesDesignRequest request, @RequestParam("file") MultipartFile imageFile, BindingResult result){
+    ApiResponse<?> saveImagesDesign(@RequestPart("imagesDesign")ImagesDesignRequest request, @RequestParam("file") MultipartFile imageFile, BindingResult result){
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
@@ -73,7 +78,7 @@ public class ImageDesignController {
     }
 
     @PutMapping("/{id}")
-    ApiResponse<?> updateProductImage(@PathVariable Long id, @RequestPart("imagesDesign")ImagesDesignRequest request, @RequestParam("file") MultipartFile imageFile, BindingResult result) {
+    ApiResponse<?> updateImagesDesign(@PathVariable Long id, @RequestPart("imagesDesign")ImagesDesignRequest request, @RequestParam("file") MultipartFile imageFile, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));

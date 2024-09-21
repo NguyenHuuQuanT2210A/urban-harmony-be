@@ -13,6 +13,7 @@ import com.example.designgalleryservice.services.FileStorageService;
 import com.example.designgalleryservice.services.ImagesDesignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class ImagesDesignServiceImpl implements ImagesDesignService {
     }
 
     @Override
-    public Page<ImagesDesignResponse> getImagesDesigns(int categoryGalleryId, Pageable pageable) {
+    public Page<ImagesDesignResponse> getImagesDesignsByCategoryGalleryId(int categoryGalleryId, Pageable pageable) {
         return imagesDesignRepository.findByCategoryGalleryId(categoryGalleryId, pageable).map(imagesDesignMapper::toImagesDesignResponse);
     }
 
@@ -94,6 +95,11 @@ public class ImagesDesignServiceImpl implements ImagesDesignService {
         }
 
         return imagesDesignMapper.toImagesDesignResponse(imagesDesignRepository.save(imagesDesign));
+    }
+
+    @Override
+    public Page<ImagesDesignResponse> getImagesDesigns(Pageable pageable) {
+        return imagesDesignRepository.findAll(pageable).map(imagesDesignMapper::toImagesDesignResponse);
     }
 
     private CategoryGalleryResponse getCategoryGalleryById(int categoryGalleryId) {
