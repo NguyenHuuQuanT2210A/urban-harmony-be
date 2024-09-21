@@ -13,5 +13,5 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     Page<Appointment> findAllByUserId(Long userId, Pageable pageable);
     Page<Appointment> findAllByDesignerId(Long designerId, Pageable pageable);
-    List<Appointment> findAllByDatetimeStartBetween(LocalDateTime start, LocalDateTime end);
+    List<Appointment> findAllByDatetimeStartBetweenAndDesignerId(LocalDateTime start, LocalDateTime end, Long designerId);
 }

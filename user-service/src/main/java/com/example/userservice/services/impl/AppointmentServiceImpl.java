@@ -50,10 +50,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentResponse addAppointment(AppointmentRequest request) {
         var designer = userRepository.findById(request.getDesignerId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
-        boolean hasDesignerRole = designer.getRoles().stream()
-                .anyMatch(role -> role.getName().equals(ERole.ROLE_DESIGNER));
 
-        if (!hasDesignerRole) {
+        if (!isDesigner(designer)) {
             throw new CustomException("User is not a designer", HttpStatus.BAD_REQUEST);
         }
         var appointment = appointmentMapper.toAppointment(request);
@@ -109,12 +107,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date) {
+    public List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date, Long designerId) {
+        var designer = userRepository.findById(designerId).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        if (!isDesigner(designer)) {
+            throw new CustomException("User is not a designer", HttpStatus.BAD_REQUEST);
+        }
         LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
 
         LocalDateTime endOfDay = date.toLocalDate().atTime(LocalTime.MAX);
 
-        List<Appointment> appointments = appointmentRepository.findAllByDatetimeStartBetween(startOfDay, endOfDay);
+        List<Appointment> appointments = appointmentRepository.findAllByDatetimeStartBetweenAndDesignerId(startOfDay, endOfDay, designerId);
 
         return appointments.stream()
                 .map(appointmentMapper::toAppointmentResponse)
@@ -128,5 +130,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private Appointment findAppointmentById(Long id) {
         return appointmentRepository.findById(id).orElseThrow(() -> new CustomException("Appointment not found", HttpStatus.NOT_FOUND));
+    }
+
+    private boolean isDesigner(User user) {
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_DESIGNER));
     }
 }

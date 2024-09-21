@@ -42,10 +42,10 @@ public class AppointmentController {
     }
 
     @GetMapping("/day")
-    public ApiResponse<List<AppointmentResponse>> getAllAppointmentsByDay(@RequestParam LocalDateTime date) {
+    public ApiResponse<List<AppointmentResponse>> getAllAppointmentsByDay(@RequestParam LocalDateTime date, @RequestParam Long designerId) {
         return ApiResponse.<List<AppointmentResponse>>builder()
                 .message("Get All Appointments By Day")
-                .data(appointmentService.getAllAppointmentsByDay(date))
+                .data(appointmentService.getAllAppointmentsByDay(date, designerId))
                 .build();
     }
 

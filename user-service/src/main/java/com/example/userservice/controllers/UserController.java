@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,14 @@ public class UserController {
         return ApiResponse.<UserDTO>builder()
                 .message("Get user by Id")
                 .data(user)
+                .build();
+    }
+
+    @GetMapping(path = "/role/{roleId}")
+    ApiResponse<Page<UserDTO>> getUserByRoleId(@PathVariable(name = "roleId") Long roleId) {
+        return ApiResponse.<Page<UserDTO>>builder()
+                .message("Get user by Role Id")
+                .data(userService.findByRoleId(roleId))
                 .build();
     }
 

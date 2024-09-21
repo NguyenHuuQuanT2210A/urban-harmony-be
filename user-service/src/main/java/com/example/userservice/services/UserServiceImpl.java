@@ -57,6 +57,17 @@ public class UserServiceImpl implements UserService {
         return new Statistics(countUsers.get(0), countUsers.get(1));
     }
 
+    @Override
+    public Page<UserDTO> findByRoleId(Long roleId) {
+        Set<Role> roles = new HashSet<>();
+        Optional<Role> role = roleRepository.findById(roleId);
+        if (!role.isPresent()) {
+            throw new CustomException("Role not found", HttpStatus.NOT_FOUND);
+        }
+        roles.add(role.get());
+        return userRepository.findAllByRoles(roles, PageRequest.of(0, 10)).map(UserMapper.INSTANCE::userToUserDTO);
+    }
+
     public Page<UserDTO> getAll(Pageable pageable) {
         Page<User> userPage = userRepository.findByDeletedAtIsNull(pageable);
         return userPage.map(UserMapper.INSTANCE::userToUserDTO);

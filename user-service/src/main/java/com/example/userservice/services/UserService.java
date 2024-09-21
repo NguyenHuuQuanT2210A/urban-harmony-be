@@ -22,4 +22,6 @@ public interface UserService {
     Page<UserDTO> searchBySpecification(Pageable pageable, String sort, String[] user, String role);
 
     Object countUsers();
+
+    Page<UserDTO> findByRoleId(Long roleId);
 }
