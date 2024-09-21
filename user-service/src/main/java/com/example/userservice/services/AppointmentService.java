@@ -6,6 +6,7 @@ import com.example.userservice.statics.enums.AppointmentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentService {
@@ -15,5 +16,6 @@ public interface AppointmentService {
     AppointmentResponse addAppointment(AppointmentRequest request);
     AppointmentResponse updateAppointment(Long id, AppointmentRequest request);
     AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status);
+    List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date);
     void deleteAppointment(Long id);
 }

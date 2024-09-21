@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,6 +38,14 @@ public class AppointmentController {
         return ApiResponse.<Page<AppointmentResponse>>builder()
                 .message("Get all Appointment By Designer Id")
                 .data(appointmentService.getAppointmentsByDesignId(designerId, PageRequest.of(page - 1, limit)))
+                .build();
+    }
+
+    @GetMapping("/day")
+    public ApiResponse<List<AppointmentResponse>> getAllAppointmentsByDay(@RequestParam LocalDateTime date) {
+        return ApiResponse.<List<AppointmentResponse>>builder()
+                .message("Get All Appointments By Day")
+                .data(appointmentService.getAllAppointmentsByDay(date))
                 .build();
     }
 

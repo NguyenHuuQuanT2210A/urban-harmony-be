@@ -19,8 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -103,6 +106,19 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         appointment.setStatus(status);
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
+    }
+
+    @Override
+    public List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date) {
+        LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
+
+        LocalDateTime endOfDay = date.toLocalDate().atTime(LocalTime.MAX);
+
+        List<Appointment> appointments = appointmentRepository.findAllByDatetimeStartBetween(startOfDay, endOfDay);
+
+        return appointments.stream()
+                .map(appointmentMapper::toAppointmentResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

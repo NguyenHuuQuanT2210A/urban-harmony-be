@@ -71,7 +71,7 @@ public class DesignerProfileController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<?> addDesignerProfile(@Valid @RequestPart("designerProfileRequest") DesignerProfileRequest request, @RequestPart("files") @NonNull List<MultipartFile> imageFiles, @RequestPart("avatar") MultipartFile avatar, BindingResult result) {
+    ResponseEntity<?> addDesignerProfile(@RequestPart("designerProfileRequest") DesignerProfileRequest request, @RequestPart("files") List<MultipartFile> imageFiles, @RequestPart("avatar") MultipartFile avatar, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
@@ -89,7 +89,7 @@ public class DesignerProfileController {
     }
 
     @PutMapping(value = "/{id}")
-    ResponseEntity<?> updateDesignerProfile(@PathVariable Long id, @RequestPart("designerProfileRequest") DesignerProfileRequest request, @RequestPart("files") @NonNull List<MultipartFile> imageFiles, @RequestPart("avatar") MultipartFile avatar, BindingResult result) {
+    ResponseEntity<?> updateDesignerProfile(@PathVariable Long id, @RequestPart("designerProfileRequest") DesignerProfileRequest request, @RequestPart("files") List<MultipartFile> imageFiles, @RequestPart("avatar") MultipartFile avatar, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> errors = result.getFieldErrors().stream()
                     .collect(Collectors.toMap(fieldError -> fieldError.getField(), fieldError -> fieldError.getDefaultMessage()));
