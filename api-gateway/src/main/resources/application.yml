@@ -18,61 +18,61 @@ spring:
             - JwtAuthenticationFilter
 
         - id: roles-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/roles/**
 
         - id: cart-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/cart/**
           filters:
             - JwtAuthenticationFilter
 
         - id: white_list-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/white_list/**
           filters:
             - JwtAuthenticationFilter
 
         - id: address_order-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/address_order/**
           filters:
             - JwtAuthenticationFilter
 
         - id: designer_profile-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/designer_profile/**
           filters:
             - JwtAuthenticationFilter
 
         - id: image_design_designer-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/image_design_designer/**
           filters:
             - JwtAuthenticationFilter
 
         - id: appointment-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/appointments/**
           filters:
             - JwtAuthenticationFilter
 
         - id: room_specifications-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/room_specifications/**
           filters:
             - JwtAuthenticationFilter
 
         - id: review_appointments-service
-          uri: http://localhost:8081
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/review_appointments/**
           filters:
@@ -80,28 +80,28 @@ spring:
 
 #        product-service
         - id: categories-service
-          uri: http://localhost:8082
+          uri: lb://product-service
           predicates:
             - Path=/api/v1/categories/**
           filters:
             - JwtAuthenticationFilter
 
         - id: product-service
-          uri: http://localhost:8082
+          uri: lb://product-service
           predicates:
             - Path=/api/v1/products/**
           filters:
             - JwtAuthenticationFilter
 
         - id: product_image-service
-          uri: http://localhost:8082
+          uri: lb://product-service
           predicates:
             - Path=/api/v1/product-images/**
           filters:
             - JwtAuthenticationFilter
 
         - id: cart_redis-service
-          uri: http://localhost:8082
+          uri: lb://product-service
           predicates:
             - Path=/api/v1/cart/**
           filters:
@@ -109,21 +109,21 @@ spring:
 
 #        order-service
         - id: order-service
-          uri: http://localhost:8084
+          uri: lb://order-service
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - JwtAuthenticationFilter
 
         - id: order_detail-service
-          uri: http://localhost:8084
+          uri: lb://order-service
           predicates:
             - Path=/api/v1/orderDetail/**
           filters:
             - JwtAuthenticationFilter
 
         - id: feedback-service
-          uri: http://localhost:8084
+          uri: lb://order-service
           predicates:
             - Path=/api/v1/feedback/**
           filters:
@@ -131,14 +131,14 @@ spring:
 
 #        inventory-service
         - id: inventory-service
-          uri: http://localhost:8088
+          uri: lb://inventory-service
           predicates:
             - Path=/api/v1/inventory/**
           filters:
             - JwtAuthenticationFilter
 
         - id: blog-service
-          uri: http://localhost:8088
+          uri: lb://inventory-service
           predicates:
             - Path=/api/v1/blogs/**
           filters:
@@ -146,28 +146,28 @@ spring:
 
 #        payment-service
         - id: payment-service
-          uri: http://localhost:8086
+          uri: lb://payment-service
           predicates:
             - Path=/api/v1/payment/**
           filters:
             - JwtAuthenticationFilter
 #        design-gallery-service
         - id: category_gallery-service
-          uri: http://localhost:8088
+          uri: lb://design-gallery-service
           predicates:
             - Path=/api/v1/category_gallery/**
           filters:
             - JwtAuthenticationFilter
 
         - id: images_design-service
-          uri: http://localhost:8088
+          uri: lb://design-gallery-service
           predicates:
             - Path=/api/v1/images_design/**
           filters:
             - JwtAuthenticationFilter
 
         - id: white_list_image_design-service
-          uri: http://localhost:8088
+          uri: lb://design-gallery-service
           predicates:
             - Path=/api/v1/white_list_image_design/**
           filters:
@@ -205,13 +205,11 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
     fetch-registry: true
     register-with-eureka: true
   instance:
-    hostname: localhost
     prefer-ip-address: true
-
 
 logging:
   level:
