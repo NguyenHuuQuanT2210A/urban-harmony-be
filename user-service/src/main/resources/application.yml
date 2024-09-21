@@ -84,11 +84,20 @@ file:
   upload-designer-design-image-dir: ./uploads/designerdesignimage
   upload-room-specification-image-dir: ./uploads/roomspecificationimage
 
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
+#    fetch-registry: true
+#    register-with-eureka: true
+#  instance:
+#    prefer-ip-address: true
+
 eureka:
-  client:
-    serviceUrl:
-      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
-    fetch-registry: true
-    register-with-eureka: true
   instance:
-    prefer-ip-address: true
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
