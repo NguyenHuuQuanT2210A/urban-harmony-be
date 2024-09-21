@@ -13,6 +13,7 @@ public class RouteValidator {
             "/api/v1/auth/register",
             "/api/v1/auth/login",
             "/eureka",
+            "/api/v1/users/role.*",
             "/api/v1/products/search-by-specification.*",
             "/api/v1/products/getAll.*",
             "/api/v1/products/list.*",
@@ -43,6 +44,7 @@ public class RouteValidator {
             "/api/v1/categoriesGallery/categoryGalleryId.*",
             "/api/v1/images-design/categoryGalleryId.*",
             "/api/v1/images-design/imagesDesign.*",
+            "/api/v1/designer_profile/postProfile.*",
             "/api/v1/white_list_image_design/user.*",
             "/api/v1/white_list_image_design/imageDesign.*"
     );

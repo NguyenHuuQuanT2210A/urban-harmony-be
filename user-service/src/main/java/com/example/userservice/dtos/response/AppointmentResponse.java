@@ -15,6 +15,7 @@ public class AppointmentResponse {
     private LocalDateTime datetimeStart;
     private LocalDateTime datetimeEnd;
     private AppointmentStatus status;
+    private String appointmentUrl;
     private Long designerId;
     private Long userId;
 }

@@ -70,6 +70,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             user =userRepository.findById(request.getUserId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
         }
         var appointment = findAppointmentById(id);
+        appointmentMapper.updateAppointment(appointment, request);
         if (Objects.nonNull(request.getDatetimeStart())) {
             appointment.setDatetimeStart(request.getDatetimeStart());
             appointment.setDatetimeEnd(request.getDatetimeStart().plusHours(1));
@@ -79,6 +80,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         if (Objects.nonNull(request.getUserId())) {
             appointment.setUser(user);
+        }
+        if (Objects.nonNull(request.getAppointmentUrl())) {
+            appointment.setAppointmentUrl(request.getAppointmentUrl());
         }
         if (Objects.nonNull(request.getStatus())) {
             if (request.getStatus() == AppointmentStatus.CANCELLED) {
@@ -108,16 +112,34 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date, Long designerId) {
-        var designer = userRepository.findById(designerId).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        var designer = userRepository.findById(designerId)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+
         if (!isDesigner(designer)) {
             throw new CustomException("User is not a designer", HttpStatus.BAD_REQUEST);
         }
-        LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
 
+        LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
         LocalDateTime endOfDay = date.toLocalDate().atTime(LocalTime.MAX);
 
+        // Lấy danh sách appointment trong khoảng ngày đã chọn
         List<Appointment> appointments = appointmentRepository.findAllByDatetimeStartBetweenAndDesignerId(startOfDay, endOfDay, designerId);
 
+        // Thời gian hiện tại
+        LocalDateTime now = LocalDateTime.now();
+
+        // Kiểm tra và cập nhật trạng thái
+        appointments.forEach(appointment -> {
+            LocalDateTime appointmentStartTime = appointment.getDatetimeStart();
+
+            // Nếu thời gian hiện tại nằm trong khoảng trước 1 tiếng hoặc sau thời gian bắt đầu của cuộc hẹn
+            if (appointmentStartTime.isBefore(now.plusHours(1)) || now.isAfter(appointmentStartTime)) {
+                appointment.setStatus(AppointmentStatus.UNAVAILABLE); // Đặt trạng thái thành UNAVAILABLE
+                appointmentRepository.save(appointment); // Cập nhật lại trong database
+            }
+        });
+
+        // Trả về danh sách AppointmentResponse
         return appointments.stream()
                 .map(appointmentMapper::toAppointmentResponse)
                 .collect(Collectors.toList());

@@ -25,6 +25,9 @@ public class Appointment extends BaseEntity {
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
 
+    @Column(name = "appointment_url", nullable = false)
+    private String appointmentUrl;
+
     @ManyToOne
     @JoinColumn(name = "designer_id", referencedColumnName = "id", nullable = false)
     private User designer;

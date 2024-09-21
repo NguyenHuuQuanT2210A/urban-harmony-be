@@ -69,7 +69,7 @@ public class DesignerProfileController {
                 .build();
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+    @PostMapping(value = "/postProfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> addDesignerProfile(@RequestPart("designerProfileRequest") DesignerProfileRequest request, @RequestPart("files") List<MultipartFile> imageFiles, @RequestPart("avatar") MultipartFile avatar, BindingResult result) {
         if (result.hasErrors()) {

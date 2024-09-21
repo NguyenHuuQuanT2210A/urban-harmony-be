@@ -38,10 +38,12 @@ public class WebSecurityConfig {
             "/api/v1/auth/login",
             "/api/v1/auth/register",
             "/api/v1/users/{id}",
+            "/api/v1/users/role/**",
             "/api/v1/roles/**",
             "/api/v1/white_list/product/**",
             "/api/v1/appointments/designer/{designerId}",
             "/api/v1/appointments/id/{id}",
+            "/api/v1/designer_profile/postProfile/**"
     };
 
     @Bean
