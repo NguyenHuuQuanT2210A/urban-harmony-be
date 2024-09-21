@@ -144,6 +144,27 @@ spring:
             - Path=/api/v1/payment/**
           filters:
             - JwtAuthenticationFilter
+#        design-gallery-service
+        - id: category_gallery-service
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/category_gallery/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: images_design-service
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/images_design/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: white_list_image_design-service
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/white_list_image_design/**
+          filters:
+            - JwtAuthenticationFilter
       globals:
         corsConfigurations:
           '[/**]':
