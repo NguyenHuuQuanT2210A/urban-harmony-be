@@ -3,18 +3,33 @@ spring:
     name: user-service
 
   datasource:
-#    url: jdbc:sqlserver://techwiz5.database.windows.net:1433;database=techwiz5-db;user=techwiz5@techwiz5;password=@Epicfigure;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-#    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:mysql://localhost:3306/epic_figures_user
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
-    password:
+  #    spring.datasource.url=jdbc:h2:mem:testdb
+  #    spring.datasource.driverClassName=org.h2.Driver
+  #    spring.datasource.username=sa
+  #    spring.datasource.password=password
+  #      url: jdbc:h2:mem:testdb
+  #      driverClassName: org.h2.Driver
+  #      username: sa
+  #      password: password
+
+  # DB in the Service cloud
+  #    url: jdbc:sqlserver://techwiz5.database.windows.net:1433;database=techwiz5-db;user=techwiz5@techwiz5;password=@Epicfigure;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+  #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  # DB in the DB cloud
+    url: jdbc:sqlserver://techwiz5-main.database.windows.net:1433;database=techwiz5-main;user=techwiz5@techwiz5-main;password=@Epicfigure;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  #    url: jdbc:mysql://localhost:3306/epic_figures_user
+  #    driverClassName: com.mysql.cj.jdbc.Driver
+  #    username: root
+  #    password:
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-#      database-platform: org.hibernate.dialect.SQLServerDialect
-#      database-platform: org.hibernate.dialect.H2Dialect
+      database-platform: org.hibernate.dialect.SQLServerDialect
+  #      database-platform: org.hibernate.dialect.H2Dialect
 
   security:
     oauth2:
@@ -23,19 +38,19 @@ spring:
           github:
             client-id: Ov23li5fRSLhcmlB7nDs
             client-secret: 729963bd07baffdc0830c6a8afdbc2434ccc2892
-#            redirect-uri: ${application.returnUrl}
+            #            redirect-uri: ${application.returnUrl}
             # scope: email, public_profile
           google:
-#            client-id: 1086239543051-slijoqf2pnhskd4q2d4qg89uuod0p8cl.apps.googleusercontent.com
-#            client-secret: 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
+            #            client-id: 1086239543051-slijoqf2pnhskd4q2d4qg89uuod0p8cl.apps.googleusercontent.com
+            #            client-secret: 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
             client-id: 1086239543051-ug33jsc1pdhsaai2kna5gk69kutdd1re.apps.googleusercontent.com
             client-secret: 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
-#            redirect-uri: ${application.returnUrl}
+          #            redirect-uri: ${application.returnUrl}
 
           facebook:
             client-id: 1632890864218116
             client-secret: 80be9bb154d02c8fc043624aab30c788
-#            redirect-uri: ${application.returnUrl}
+        #            redirect-uri: ${application.returnUrl}
 
         resource-server:
           jwt:
@@ -43,9 +58,9 @@ spring:
 
   kafka:
     producer:
-        bootstrap-servers: localhost:9092
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: 8081
@@ -62,7 +77,7 @@ bezkoder:
     dev-url: http://localhost:8081
 
 application:
-#  jwtExpirationMs: 86400000
+  #  jwtExpirationMs: 86400000
   returnUrl: http://localhost:8080/oauth2/redirect
 
 jwt:
@@ -84,20 +99,20 @@ file:
   upload-designer-design-image-dir: ./uploads/designerdesignimage
   upload-room-specification-image-dir: ./uploads/roomspecificationimage
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
-#    fetch-registry: true
-#    register-with-eureka: true
-#  instance:
-#    prefer-ip-address: true
-
 eureka:
-  instance:
-    hostname: localhost
   client:
-    register-with-eureka: true
+    serviceUrl:
+      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
     fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
