@@ -7,20 +7,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="inventory-service" />
         <module name="payment-service" />
-        <module name="design-gallery-service" />
-        <module name="common" />
-        <module name="demo-spring-kafka" />
-        <module name="api-gateway" />
-        <module name="demo-http-microservices" />
-        <module name="product-service" />
-        <module name="order-service" />
-        <module name="user-service" />
-        <module name="eureka-server" />
-        <module name="notification-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="17" />
+      <module name="common" target="17" />
+      <module name="demo-http-microservices" target="17" />
+      <module name="demo-spring-kafka" target="17" />
+      <module name="design-gallery-service" target="17" />
+      <module name="eureka-server" target="17" />
+      <module name="inventory-service" target="17" />
+      <module name="notification-service" target="17" />
+      <module name="order-service" target="17" />
+      <module name="product-service" target="17" />
+      <module name="user-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
