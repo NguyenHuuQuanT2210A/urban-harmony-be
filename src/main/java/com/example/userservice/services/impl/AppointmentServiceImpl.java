@@ -1,6 +1,5 @@
 package com.example.userservice.services.impl;
 
-import com.example.userservice.dtos.request.AddAppointmentRequest;
 import com.example.userservice.dtos.request.AppointmentRequest;
 import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.AppointmentResponse;
@@ -48,7 +47,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentResponse addAppointment(AddAppointmentRequest request) {
+    public AppointmentResponse addAppointment(AppointmentRequest request) {
         var designer = userRepository.findById(request.getDesignerId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
 
         if (!isDesigner(designer)) {

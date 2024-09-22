@@ -3,7 +3,6 @@ package com.example.userservice.configs;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.Configurable;
-//import org.hibernate.exceptions.spi.Configurable;
 import org.hibernate.id.IdentifierGenerator;
 
 import java.io.Serializable;

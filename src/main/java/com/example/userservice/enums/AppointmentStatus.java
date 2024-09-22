@@ -1,4 +1,4 @@
-package com.example.userservice.statics.enums;
+package com.example.userservice.enums;
 
 public enum AppointmentStatus {
     AVAILABLE,
