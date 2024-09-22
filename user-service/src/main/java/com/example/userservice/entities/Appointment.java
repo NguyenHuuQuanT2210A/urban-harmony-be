@@ -22,10 +22,10 @@ public class Appointment extends BaseEntity {
     private LocalDateTime datetimeEnd;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private AppointmentStatus status;
 
-    @Column(name = "appointment_url", nullable = false)
+    @Column(name = "appointment_url")
     private String appointmentUrl;
 
     @ManyToOne

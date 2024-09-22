@@ -3,6 +3,7 @@ package com.example.orderservice.controller;
 import com.example.common.enums.OrderSimpleStatus;
 import com.example.orderservice.dto.request.OrderRequest;
 import com.example.orderservice.dto.response.ApiResponse;
+import com.example.orderservice.dto.response.CountOrderByStatus;
 import com.example.orderservice.service.OrderService;
 import com.example.orderservice.specification.SearchBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,10 +49,10 @@ public class OrderController {
     }
 
     @GetMapping("/count/status")
-    public ApiResponse<Long> getCountByStatusOrder(OrderSimpleStatus status) {
-        return ApiResponse.<Long>builder()
+    public ApiResponse<CountOrderByStatus> getCountByStatusOrder() {
+        return ApiResponse.<CountOrderByStatus>builder()
                 .message("Get Count By Status Order")
-                .data(orderService.getCountByStatusOrder(status))
+                .data(orderService.getCountByStatusOrder())
                 .build();
     }
 

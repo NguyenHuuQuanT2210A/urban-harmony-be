@@ -56,7 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         var appointment = appointmentMapper.toAppointment(request);
         appointment.setDatetimeEnd(request.getDatetimeStart().plusHours(1));
-        appointment.setStatus(AppointmentStatus.CREATED);
+        appointment.setStatus(AppointmentStatus.AVAILABLE);
         appointment.setDesigner(designer);
         appointment.setUser(null);
 
@@ -85,26 +85,28 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setAppointmentUrl(request.getAppointmentUrl());
         }
         if (Objects.nonNull(request.getStatus())) {
-            if (request.getStatus() == AppointmentStatus.CANCELLED) {
-                appointment.setStatus(AppointmentStatus.CREATED);
-                appointment.setUser(null);
-            }else {
-                appointment.setStatus(request.getStatus());
-            }
+            appointment.setStatus(request.getStatus());
         }
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
     @Override
-    public AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status) {
+    public AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status, Long userId) {
+        User user = null;
+        if (userId != null) {
+            user =userRepository.findById(userId).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        }
         var appointment = findAppointmentById(id);
         if (status == null) {
             throw new CustomException("Status is required", HttpStatus.BAD_REQUEST);
         }
 
-        if (status == AppointmentStatus.CANCELLED) {
-            appointment.setStatus(AppointmentStatus.CREATED);
-            appointment.setUser(null);
+        if (status == AppointmentStatus.AVAILABLE) {
+            appointment.setStatus(AppointmentStatus.AVAILABLE);
+            appointment.setUser(user);
+        }else {
+            appointment.setStatus(AppointmentStatus.UNAVAILABLE);
+            appointment.setUser(user);
         }
         appointment.setStatus(status);
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));

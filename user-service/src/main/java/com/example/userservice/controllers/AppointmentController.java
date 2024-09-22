@@ -74,10 +74,10 @@ public class AppointmentController {
     }
 
     @PutMapping("/updateStatus/{id}")
-    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestParam AppointmentStatus status) {
+    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestParam AppointmentStatus status, @RequestParam Long userId) {
         return ApiResponse.<AppointmentResponse>builder()
                 .message("Update Appointment")
-                .data(appointmentService.updateStatusAppointment(id, status))
+                .data(appointmentService.updateStatusAppointment(id, status, userId))
                 .build();
     }
 

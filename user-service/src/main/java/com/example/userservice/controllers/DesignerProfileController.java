@@ -6,8 +6,8 @@ import com.example.userservice.dtos.response.DesignerProfileResponse;
 import com.example.userservice.exceptions.NotFoundException;
 import com.example.userservice.services.DesignerProfileService;
 import com.example.userservice.services.UserService;
+import com.example.userservice.statics.enums.DesignerProfileStatus;
 import jakarta.validation.Valid;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -28,6 +28,14 @@ import java.util.stream.Collectors;
 public class DesignerProfileController {
     private final DesignerProfileService designerProfileService;
     private final UserService userService;
+
+    @GetMapping("/getByStatus")
+    ApiResponse<?> getByStatus(@RequestParam DesignerProfileStatus status) {
+        return ApiResponse.builder()
+                .message("Get Designer Profiles By Status")
+                .data(designerProfileService.getByStatus(status))
+                .build();
+    }
 
     @GetMapping("/count")
     ApiResponse<Long> countDesignerProfiles() {
@@ -107,7 +115,7 @@ public class DesignerProfileController {
     }
 
     @PutMapping("/updateStatus/{id}")
-    ApiResponse<DesignerProfileResponse> updateStatusDesignerProfile(@PathVariable Long id, @RequestParam String status) {
+    ApiResponse<DesignerProfileResponse> updateStatusDesignerProfile(@PathVariable Long id, @RequestParam DesignerProfileStatus status) {
         return ApiResponse.<DesignerProfileResponse>builder()
                 .message("Get Designer Profiles by User Id")
                 .data(designerProfileService.updateStatusDesignerProfile(id, status))

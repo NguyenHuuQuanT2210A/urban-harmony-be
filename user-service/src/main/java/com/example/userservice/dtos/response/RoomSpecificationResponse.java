@@ -14,6 +14,7 @@ public class RoomSpecificationResponse {
     private String room_length;
     private String room_width;
     private String color;
+    private String phone;
     private List<String> imageList;
     private Long userId;
     private Long appointmentId;

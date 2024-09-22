@@ -15,7 +15,7 @@ public interface AppointmentService {
     AppointmentResponse getAppointmentById(Long id);
     AppointmentResponse addAppointment(AppointmentRequest request);
     AppointmentResponse updateAppointment(Long id, AppointmentRequest request);
-    AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status);
+    AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status, Long userId);
     List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date, Long designerId);
     void deleteAppointment(Long id);
 }
