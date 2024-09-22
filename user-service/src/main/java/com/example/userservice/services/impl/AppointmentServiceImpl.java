@@ -1,6 +1,7 @@
 package com.example.userservice.services.impl;
 
 import com.example.userservice.dtos.request.AppointmentRequest;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.AppointmentResponse;
 import com.example.userservice.entities.Appointment;
 import com.example.userservice.entities.Role;
@@ -56,7 +57,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         var appointment = appointmentMapper.toAppointment(request);
         appointment.setDatetimeEnd(request.getDatetimeStart().plusHours(1));
-        appointment.setStatus(AppointmentStatus.CREATED);
+        appointment.setStatus(AppointmentStatus.AVAILABLE);
         appointment.setDesigner(designer);
         appointment.setUser(null);
 
@@ -70,7 +71,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             user =userRepository.findById(request.getUserId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
         }
         var appointment = findAppointmentById(id);
-        appointmentMapper.updateAppointment(appointment, request);
         if (Objects.nonNull(request.getDatetimeStart())) {
             appointment.setDatetimeStart(request.getDatetimeStart());
             appointment.setDatetimeEnd(request.getDatetimeStart().plusHours(1));
@@ -80,33 +80,31 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         if (Objects.nonNull(request.getUserId())) {
             appointment.setUser(user);
+        }else {
+            appointment.setUser(null);
         }
         if (Objects.nonNull(request.getAppointmentUrl())) {
             appointment.setAppointmentUrl(request.getAppointmentUrl());
         }
         if (Objects.nonNull(request.getStatus())) {
-            if (request.getStatus() == AppointmentStatus.CANCELLED) {
-                appointment.setStatus(AppointmentStatus.CREATED);
-                appointment.setUser(null);
-            }else {
-                appointment.setStatus(request.getStatus());
-            }
+            appointment.setStatus(request.getStatus());
         }
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
     @Override
-    public AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status) {
+    public AppointmentResponse updateStatusAppointment(Long id, UpdateStatusAppointment updateStatusAppointment) {
+        User user = null;
         var appointment = findAppointmentById(id);
-        if (status == null) {
-            throw new CustomException("Status is required", HttpStatus.BAD_REQUEST);
-        }
 
-        if (status == AppointmentStatus.CANCELLED) {
-            appointment.setStatus(AppointmentStatus.CREATED);
+        if (Objects.nonNull(updateStatusAppointment.getUserId())) {
+            appointment.setUser(userRepository.findById(updateStatusAppointment.getUserId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND)));
+        }else {
             appointment.setUser(null);
         }
-        appointment.setStatus(status);
+        if (Objects.nonNull(updateStatusAppointment.getStatus())) {
+            appointment.setStatus(updateStatusAppointment.getStatus());
+        }
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 

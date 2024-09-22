@@ -10,6 +10,7 @@ import com.example.orderservice.dto.request.OrderRequest;
 import com.example.orderservice.dto.request.PaymentRequest;
 import com.example.orderservice.dto.request.UserAndProductId;
 import com.example.orderservice.dto.response.ApiResponse;
+import com.example.orderservice.dto.response.CountOrderByStatus;
 import com.example.orderservice.entities.Order;
 import com.example.orderservice.entities.OrderDetailId;
 import com.example.orderservice.exception.CustomException;
@@ -375,8 +376,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long getCountByStatusOrder(OrderSimpleStatus status) {
-        return orderRepository.countOrdersByStatus(status);
+    public CountOrderByStatus getCountByStatusOrder() {
+        return CountOrderByStatus.builder()
+                .created(orderRepository.countOrdersByStatus(OrderSimpleStatus.CREATED))
+                .pending(orderRepository.countOrdersByStatus(OrderSimpleStatus.PENDING))
+                .processing(orderRepository.countOrdersByStatus(OrderSimpleStatus.PROCESSING))
+                .onDelivery(orderRepository.countOrdersByStatus(OrderSimpleStatus.ONDELIVERY))
+                .delivered(orderRepository.countOrdersByStatus(OrderSimpleStatus.DELIVERED))
+                .complete(orderRepository.countOrdersByStatus(OrderSimpleStatus.COMPLETE))
+                .cancel(orderRepository.countOrdersByStatus(OrderSimpleStatus.CANCEL))
+                .build();
     }
 
     private Order findOrderById(String id) {

@@ -4,6 +4,7 @@ import com.example.common.dto.OrderDTO;
 import com.example.common.dto.ProductDTO;
 import com.example.common.enums.OrderSimpleStatus;
 import com.example.orderservice.dto.request.OrderRequest;
+import com.example.orderservice.dto.response.CountOrderByStatus;
 import com.example.orderservice.specification.SearchBody;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +31,7 @@ public interface OrderService {
 
     Page<OrderDTO> findOrderByUserIdAndStatus(Long userId, OrderSimpleStatus status, Pageable pageable);
 
-    Long getCountByStatusOrder(OrderSimpleStatus status);
+    CountOrderByStatus getCountByStatusOrder();
 }
 
 

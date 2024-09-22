@@ -35,7 +35,7 @@ public class ImageDesignController {
                                                              @RequestParam(defaultValue = "1", name = "page") int page,
                                                              @RequestParam(defaultValue = "10", name = "limit") int limit) {
         return ApiResponse.<Page<ImagesDesignResponse>>builder()
-                .message("Get all Product Images By category Gallery ID")
+                .message("Get all Images Design By category Gallery ID")
                 .data(imagesDesignService.getImagesDesignsByCategoryGalleryId(categoryGalleryId, PageRequest.of(page - 1, limit)))
                 .build();
     }
@@ -44,8 +44,16 @@ public class ImageDesignController {
     ApiResponse<Page<ImagesDesignResponse>> getImagesDesign(@RequestParam(defaultValue = "1", name = "page") int page,
                                                              @RequestParam(defaultValue = "10", name = "limit") int limit) {
         return ApiResponse.<Page<ImagesDesignResponse>>builder()
-                .message("Get all Product Image")
+                .message("Get all Images Design")
                 .data(imagesDesignService.getImagesDesigns(PageRequest.of(page - 1, limit)))
+                .build();
+    }
+
+    @GetMapping("/id/{id}")
+    ApiResponse<ImagesDesignResponse> getImagesDesignById(@PathVariable Long id) {
+        return ApiResponse.<ImagesDesignResponse>builder()
+                .message("Get Images Design")
+                .data(imagesDesignService.getImagesDesignById(id))
                 .build();
     }
 
@@ -72,7 +80,7 @@ public class ImageDesignController {
                     .build();
         }
         return ApiResponse.<ImagesDesignResponse>builder()
-                .message("Create a new Product Image")
+                .message("Create a new Images Design")
                 .data(imagesDesignService.saveImagesDesign(request, imageFile))
                 .build();
     }
@@ -89,7 +97,7 @@ public class ImageDesignController {
                     .build();
         }
         return ApiResponse.<ImagesDesignResponse>builder()
-                .message("Update Product Image")
+                .message("Update Images Design")
                 .data(imagesDesignService.updateImagesDesign(id, request, imageFile))
                 .build();
     }

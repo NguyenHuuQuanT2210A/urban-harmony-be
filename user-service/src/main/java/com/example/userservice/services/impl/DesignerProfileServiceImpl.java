@@ -15,6 +15,7 @@ import com.example.userservice.repositories.DesignerProfileRepository;
 import com.example.userservice.repositories.RoleRepository;
 import com.example.userservice.repositories.UserRepository;
 import com.example.userservice.services.*;
+import com.example.userservice.statics.enums.DesignerProfileStatus;
 import com.example.userservice.statics.enums.ERole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +103,7 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
         DesignerProfile designerProfile = designerProfileMapper.INSTANCE.toDesignerProfile(request);
         designerProfile.setAvatar(fileStorageService.storeUserImageFile(avatar));
         designerProfile.setUser(userMapper.INSTANCE.userDTOToUser(userDTO));
-        designerProfile.setStatus("PENDING");
+        designerProfile.setStatus(DesignerProfileStatus.PENDING);
 
         designerProfileRepository.save(designerProfile);
 
@@ -176,10 +177,10 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
     }
 
     @Override
-    public DesignerProfileResponse updateStatusDesignerProfile(Long id, String status) {
+    public DesignerProfileResponse updateStatusDesignerProfile(Long id, DesignerProfileStatus status) {
         DesignerProfile designerProfile = findDesignerProfileById(id);
         designerProfile.setStatus(status);
-        if (status.equals("ACCEPTED")) {
+        if (status.equals(DesignerProfileStatus.ACCEPTED)) {
             User user = userRepository.findById(designerProfile.getUser().getId()).orElseThrow(() -> new CustomException("User not found with id: " + designerProfile.getUser().getId(), HttpStatus.BAD_REQUEST));
             Set<Role> roles = new HashSet<>(user.getRoles());
             Role designerRole = roleRepository.findByName(ERole.ROLE_DESIGNER)
@@ -224,5 +225,13 @@ public class DesignerProfileServiceImpl implements DesignerProfileService {
         DesignerProfile designerProfile = findDesignerProfileById(id);
         designerProfile.setDeletedAt(null);
         designerProfileRepository.save(designerProfile);
+    }
+
+    @Override
+    public List<DesignerProfileResponse> getByStatus(DesignerProfileStatus status) {
+        return designerProfileRepository.findByStatus(status)
+                .stream()
+                .map(designerProfileMapper.INSTANCE::toDesignerProfileResponse)
+                .collect(Collectors.toList());
     }
 }

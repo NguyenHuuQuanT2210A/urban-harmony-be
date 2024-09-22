@@ -102,6 +102,11 @@ public class ImagesDesignServiceImpl implements ImagesDesignService {
         return imagesDesignRepository.findAll(pageable).map(imagesDesignMapper::toImagesDesignResponse);
     }
 
+    @Override
+    public ImagesDesignResponse getImagesDesignById(Long id) {
+        return imagesDesignRepository.findById(id).map(imagesDesignMapper::toImagesDesignResponse).orElseThrow(() -> new CustomException("Image design not found with id: " + id, HttpStatus.BAD_REQUEST));
+    }
+
     private CategoryGalleryResponse getCategoryGalleryById(int categoryGalleryId) {
         return categoryGalleryService.getCategoryGalleryById(categoryGalleryId);
     }

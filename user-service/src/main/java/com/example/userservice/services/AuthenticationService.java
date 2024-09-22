@@ -74,6 +74,7 @@ public class AuthenticationService {
                     .id(userDetails.getId())
                     .username(userDetails.getUsername())
                     .email(userDetails.getEmail())
+                    .phoneNumber(userDetails.getPhoneNumber())
                     .roles(roles)
                     .build();
     }
@@ -99,6 +100,7 @@ public class AuthenticationService {
         roles.add(userRole);
 
         user.setRoles(roles);
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
         userRepository.save(user);
     }
 

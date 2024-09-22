@@ -1,6 +1,7 @@
 package com.example.userservice.services.impl;
 
 import com.example.userservice.dtos.request.RoomSpecificationRequest;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.DesignerProfileResponse;
 import com.example.userservice.dtos.response.RoomSpecificationResponse;
 import com.example.userservice.entities.DesignerProfile;
@@ -15,6 +16,7 @@ import com.example.userservice.repositories.DesignerProfileRepository;
 import com.example.userservice.repositories.RoomSpecificationRepository;
 import com.example.userservice.services.*;
 import com.example.userservice.services.RoomSpecificationService;
+import com.example.userservice.statics.enums.AppointmentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,7 @@ public class RoomSpecificationServiceImpl implements RoomSpecificationService {
             fileStorageService.deleteRoomSpecificationImageFile(imageUrl);
         }
         roomSpecificationRepository.deleteById(id);
+        appointmentService.updateStatusAppointment(roomSpecification.get().getAppointment().getId(), UpdateStatusAppointment.builder().status(AppointmentStatus.AVAILABLE).userId(null).build());
     }
 
     @Override
@@ -57,6 +60,7 @@ public class RoomSpecificationServiceImpl implements RoomSpecificationService {
                 fileStorageService.deleteRoomSpecificationImageFile(imageUrl);
             }
             roomSpecificationRepository.deleteById(roomSpecification.getId());
+            appointmentService.updateStatusAppointment(roomSpecification.getAppointment().getId(), UpdateStatusAppointment.builder().status(AppointmentStatus.AVAILABLE).userId(null).build());
         }
     }
 

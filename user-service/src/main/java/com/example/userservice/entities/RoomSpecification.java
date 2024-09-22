@@ -18,7 +18,7 @@ public class RoomSpecification extends BaseEntity {
     private String room_length;
     private String room_width;
     private String color;
-
+    private String phone;
     private String imageList;
 
     @ManyToOne

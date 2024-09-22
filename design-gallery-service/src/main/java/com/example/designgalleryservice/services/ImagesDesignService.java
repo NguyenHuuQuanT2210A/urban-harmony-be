@@ -16,4 +16,6 @@ public interface ImagesDesignService {
     ImagesDesignResponse saveImagesDesign(ImagesDesignRequest request, MultipartFile imageFile);
     ImagesDesignResponse updateImagesDesign(Long id, ImagesDesignRequest request, MultipartFile imageFile);
     Page<ImagesDesignResponse> getImagesDesigns(Pageable pageable);
+
+    ImagesDesignResponse getImagesDesignById(Long id);
 }
