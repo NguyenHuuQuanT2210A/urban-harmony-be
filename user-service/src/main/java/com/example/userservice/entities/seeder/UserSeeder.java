@@ -25,10 +25,9 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() > 0) {
-            return;
+        if (userRepository.count() == 0) {
+            createUsers();
         }
-        createUsers();
     }
 
     private void createUsers() {
