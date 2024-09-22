@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentRequest {
+public class AddAppointmentRequest {
     private LocalDateTime datetimeStart;
     private AppointmentStatus status;
-    private String appointmentUrl;
     private Long designerId;
     private Long userId;
 }

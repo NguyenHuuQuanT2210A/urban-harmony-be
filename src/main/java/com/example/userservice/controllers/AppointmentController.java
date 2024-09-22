@@ -1,5 +1,6 @@
 package com.example.userservice.controllers;
 
+import com.example.userservice.dtos.request.AddAppointmentRequest;
 import com.example.userservice.dtos.request.AppointmentRequest;
 import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.ApiResponse;
@@ -58,7 +59,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ApiResponse<AppointmentResponse> addAppointment(@RequestBody AppointmentRequest request) {
+    public ApiResponse<AppointmentResponse> addAppointment(@RequestBody AddAppointmentRequest request) {
         return ApiResponse.<AppointmentResponse>builder()
                 .message("Create Appointment")
                 .data(appointmentService.addAppointment(request))
