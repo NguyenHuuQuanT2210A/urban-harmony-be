@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class AppointmentRequest {
     private LocalDateTime datetimeStart;
     private AppointmentStatus status;
+//    private String appointmentUrl;
     private Long designerId;
     private Long userId;
 }

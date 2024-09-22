@@ -81,9 +81,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         }else {
             appointment.setUser(null);
         }
-        if (Objects.nonNull(request.getAppointmentUrl())) {
-            appointment.setAppointmentUrl(request.getAppointmentUrl());
-        }
+//        if (Objects.nonNull(request.getAppointmentUrl())) {
+//            appointment.setAppointmentUrl(request.getAppointmentUrl());
+//        }
         if (Objects.nonNull(request.getStatus())) {
             appointment.setStatus(request.getStatus());
         }
