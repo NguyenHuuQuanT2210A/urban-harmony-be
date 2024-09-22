@@ -8,11 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="design-gallery-service" />
-        <module name="common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="api-gateway" target="17" />
+      <module name="common" target="17" />
       <module name="demo-http-microservices" target="17" />
       <module name="demo-spring-kafka" target="17" />
       <module name="eureka-server" target="17" />

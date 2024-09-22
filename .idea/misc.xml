@@ -16,11 +16,13 @@
         <option value="$PROJECT_DIR$/notification-service/pom.xml" />
         <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/design-gallery-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/demo-http-microservices/pom.xml" />
         <option value="$PROJECT_DIR$/demo-spring-kafka/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
