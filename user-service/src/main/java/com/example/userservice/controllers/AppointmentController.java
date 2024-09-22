@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.dtos.request.AppointmentRequest;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.AppointmentResponse;
 import com.example.userservice.dtos.response.ApiResponse;
 import com.example.userservice.services.AppointmentService;
@@ -74,10 +75,10 @@ public class AppointmentController {
     }
 
     @PutMapping("/updateStatus/{id}")
-    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestParam AppointmentStatus status, @RequestParam Long userId) {
+    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestBody UpdateStatusAppointment updateStatusAppointment) {
         return ApiResponse.<AppointmentResponse>builder()
                 .message("Update Appointment")
-                .data(appointmentService.updateStatusAppointment(id, status, userId))
+                .data(appointmentService.updateStatusAppointment(id, updateStatusAppointment))
                 .build();
     }
 

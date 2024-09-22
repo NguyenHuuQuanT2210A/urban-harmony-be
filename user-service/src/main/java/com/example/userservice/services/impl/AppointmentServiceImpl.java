@@ -1,6 +1,7 @@
 package com.example.userservice.services.impl;
 
 import com.example.userservice.dtos.request.AppointmentRequest;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.AppointmentResponse;
 import com.example.userservice.entities.Appointment;
 import com.example.userservice.entities.Role;
@@ -70,7 +71,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             user =userRepository.findById(request.getUserId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
         }
         var appointment = findAppointmentById(id);
-        appointmentMapper.updateAppointment(appointment, request);
         if (Objects.nonNull(request.getDatetimeStart())) {
             appointment.setDatetimeStart(request.getDatetimeStart());
             appointment.setDatetimeEnd(request.getDatetimeStart().plusHours(1));
@@ -80,6 +80,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         if (Objects.nonNull(request.getUserId())) {
             appointment.setUser(user);
+        }else {
+            appointment.setUser(null);
         }
         if (Objects.nonNull(request.getAppointmentUrl())) {
             appointment.setAppointmentUrl(request.getAppointmentUrl());
@@ -91,24 +93,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status, Long userId) {
+    public AppointmentResponse updateStatusAppointment(Long id, UpdateStatusAppointment updateStatusAppointment) {
         User user = null;
-        if (userId != null) {
-            user =userRepository.findById(userId).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
-        }
         var appointment = findAppointmentById(id);
-        if (status == null) {
-            throw new CustomException("Status is required", HttpStatus.BAD_REQUEST);
-        }
 
-        if (status == AppointmentStatus.AVAILABLE) {
-            appointment.setStatus(AppointmentStatus.AVAILABLE);
-            appointment.setUser(user);
+        if (Objects.nonNull(updateStatusAppointment.getUserId())) {
+            appointment.setUser(userRepository.findById(updateStatusAppointment.getUserId()).orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND)));
         }else {
-            appointment.setStatus(AppointmentStatus.UNAVAILABLE);
-            appointment.setUser(user);
+            appointment.setUser(null);
         }
-        appointment.setStatus(status);
+        if (Objects.nonNull(updateStatusAppointment.getStatus())) {
+            appointment.setStatus(updateStatusAppointment.getStatus());
+        }
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
