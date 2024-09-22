@@ -2,8 +2,8 @@ package com.example.userservice.controllers;
 
 import com.example.userservice.dtos.response.ApiResponse;
 import com.example.userservice.dtos.response.CartResponse;
-import com.example.userservice.entities.UserAndProductId;
 import com.example.userservice.entities.Cart;
+import com.example.userservice.entities.UserAndProductId;
 import com.example.userservice.services.CartService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -8,7 +8,6 @@ import com.example.userservice.mappers.AddressOrderMapper;
 import com.example.userservice.repositories.AddressOrderRepository;
 import com.example.userservice.repositories.UserRepository;
 import com.example.userservice.services.AddressOrderService;
-import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -7,7 +7,6 @@ import com.example.userservice.exceptions.CustomException;
 import com.example.userservice.services.FileStorageService;
 import com.example.userservice.services.RoomSpecificationService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

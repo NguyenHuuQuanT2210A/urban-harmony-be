@@ -1,7 +1,9 @@
 package com.example.userservice.entities.seeder;
 
-import com.example.userservice.entities.*;
-import com.example.userservice.repositories.*;
+import com.example.userservice.entities.Role;
+import com.example.userservice.entities.User;
+import com.example.userservice.repositories.RoleRepository;
+import com.example.userservice.repositories.UserRepository;
 import com.example.userservice.statics.enums.ERole;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
@@ -25,9 +27,10 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
-            createUsers();
+        if (userRepository.count() > 0) {
+            return;
         }
+        createUsers();
     }
 
     private void createUsers() {

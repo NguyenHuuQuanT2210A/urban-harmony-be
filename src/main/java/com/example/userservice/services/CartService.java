@@ -1,8 +1,8 @@
 package com.example.userservice.services;
 
 import com.example.userservice.dtos.response.CartResponse;
-import com.example.userservice.entities.UserAndProductId;
 import com.example.userservice.entities.Cart;
+import com.example.userservice.entities.UserAndProductId;
 
 import java.util.List;
 

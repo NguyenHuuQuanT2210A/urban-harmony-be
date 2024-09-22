@@ -1,8 +1,6 @@
 package com.example.userservice.dtos.request;
 
-import com.example.userservice.entities.User;
 import com.example.userservice.statics.enums.AppointmentStatus;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

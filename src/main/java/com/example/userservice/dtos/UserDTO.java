@@ -1,10 +1,12 @@
 package com.example.userservice.dtos;
 
 import com.example.userservice.entities.Role;
-import com.example.userservice.entities.User;
-import lombok.*;
-
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,12 +1,13 @@
 package com.example.userservice.models.requests;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
-import jakarta.validation.constraints.Size;
 import java.util.Set;
 @Data
 @AllArgsConstructor
@@ -20,6 +21,9 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
+
+    @NotNull
+    private String phoneNumber;
 
     private Set<String> role;
 

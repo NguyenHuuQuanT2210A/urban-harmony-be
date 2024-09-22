@@ -1,11 +1,8 @@
 package com.example.userservice.mappers;
 
 import com.example.userservice.dtos.request.DesignerProfileRequest;
-import com.example.userservice.dtos.request.ImageDesignDesignerRequest;
 import com.example.userservice.dtos.response.DesignerProfileResponse;
-import com.example.userservice.dtos.response.ImageDesignDesignerResponse;
 import com.example.userservice.entities.DesignerProfile;
-import com.example.userservice.entities.ImageDesignDesigner;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

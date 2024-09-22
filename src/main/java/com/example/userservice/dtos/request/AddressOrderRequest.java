@@ -1,7 +1,6 @@
 package com.example.userservice.dtos.request;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter

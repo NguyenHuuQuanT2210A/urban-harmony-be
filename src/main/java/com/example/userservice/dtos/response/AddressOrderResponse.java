@@ -1,9 +1,6 @@
 package com.example.userservice.dtos.response;
 
-import com.example.userservice.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter

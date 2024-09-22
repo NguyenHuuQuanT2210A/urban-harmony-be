@@ -1,10 +1,10 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.dtos.request.AppointmentRequest;
-import com.example.userservice.dtos.response.AppointmentResponse;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.ApiResponse;
+import com.example.userservice.dtos.response.AppointmentResponse;
 import com.example.userservice.services.AppointmentService;
-import com.example.userservice.statics.enums.AppointmentStatus;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,10 +74,10 @@ public class AppointmentController {
     }
 
     @PutMapping("/updateStatus/{id}")
-    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestParam AppointmentStatus status) {
+    public ApiResponse<AppointmentResponse> updateStatusAppointment(@PathVariable Long id, @RequestBody UpdateStatusAppointment updateStatusAppointment) {
         return ApiResponse.<AppointmentResponse>builder()
                 .message("Update Appointment")
-                .data(appointmentService.updateStatusAppointment(id, status))
+                .data(appointmentService.updateStatusAppointment(id, updateStatusAppointment))
                 .build();
     }
 

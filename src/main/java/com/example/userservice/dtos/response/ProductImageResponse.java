@@ -2,7 +2,6 @@ package com.example.userservice.dtos.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 

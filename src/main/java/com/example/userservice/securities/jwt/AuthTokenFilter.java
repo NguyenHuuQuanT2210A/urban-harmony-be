@@ -2,7 +2,6 @@ package com.example.userservice.securities.jwt;
 
 import com.example.userservice.securities.services.TokenBlacklistService;
 import com.example.userservice.securities.services.UserDetailsServiceImpl;
-import com.example.userservice.statics.enums.TokenType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

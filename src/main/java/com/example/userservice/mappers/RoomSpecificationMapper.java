@@ -1,10 +1,7 @@
 package com.example.userservice.mappers;
 
-import com.example.userservice.dtos.request.AddressOrderRequest;
 import com.example.userservice.dtos.request.RoomSpecificationRequest;
-import com.example.userservice.dtos.response.AddressOrderResponse;
 import com.example.userservice.dtos.response.RoomSpecificationResponse;
-import com.example.userservice.entities.AddressOrder;
 import com.example.userservice.entities.RoomSpecification;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,8 +1,7 @@
 package com.example.userservice.services;
 
-import com.example.userservice.dtos.response.RoleResponse;
-import com.example.userservice.dtos.response.Statistics;
 import com.example.userservice.dtos.UserDTO;
+import com.example.userservice.dtos.response.Statistics;
 import com.example.userservice.entities.Role;
 import com.example.userservice.entities.User;
 import com.example.userservice.exceptions.CustomException;
@@ -30,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static com.example.userservice.repositories.specification.SearchOperation.OR_PREDICATE_FLAG;
 import static com.example.userservice.util.AppConst.SEARCH_SPEC_OPERATOR;

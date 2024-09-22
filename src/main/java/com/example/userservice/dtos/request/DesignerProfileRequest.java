@@ -1,6 +1,5 @@
 package com.example.userservice.dtos.request;
 
-import com.example.userservice.dtos.response.ImageDesignDesignerResponse;
 import lombok.*;
 
 import java.util.Set;

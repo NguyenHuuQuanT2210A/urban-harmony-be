@@ -69,6 +69,16 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)  // Vô hiệu hóa CSRF
+            .cors(cors -> {
+                cors.configurationSource(request -> {
+                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfiguration.setAllowCredentials(true);
+                    corsConfiguration.addAllowedOriginPattern("*");
+                    corsConfiguration.addAllowedHeader("*");
+                    corsConfiguration.addAllowedMethod("*");
+                    return corsConfiguration;
+                });
+            })
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                             .requestMatchers(PUBLIC_ENDPOINTS).permitAll()

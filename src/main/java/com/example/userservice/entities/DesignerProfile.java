@@ -1,6 +1,7 @@
 package com.example.userservice.entities;
 
 import com.example.userservice.entities.base.BaseEntity;
+import com.example.userservice.statics.enums.DesignerProfileStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +31,8 @@ public class DesignerProfile extends BaseEntity {
     private String education;
     private String certifications;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private DesignerProfileStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)

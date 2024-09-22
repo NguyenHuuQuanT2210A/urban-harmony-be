@@ -1,8 +1,8 @@
 package com.example.userservice.services;
 
 import com.example.userservice.dtos.request.AppointmentRequest;
+import com.example.userservice.dtos.request.UpdateStatusAppointment;
 import com.example.userservice.dtos.response.AppointmentResponse;
-import com.example.userservice.statics.enums.AppointmentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +15,7 @@ public interface AppointmentService {
     AppointmentResponse getAppointmentById(Long id);
     AppointmentResponse addAppointment(AppointmentRequest request);
     AppointmentResponse updateAppointment(Long id, AppointmentRequest request);
-    AppointmentResponse updateStatusAppointment(Long id, AppointmentStatus status);
+    AppointmentResponse updateStatusAppointment(Long id, UpdateStatusAppointment updateStatusAppointment);
     List<AppointmentResponse> getAllAppointmentsByDay(LocalDateTime date, Long designerId);
     void deleteAppointment(Long id);
 }
