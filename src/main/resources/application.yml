@@ -1,0 +1,225 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+#        USER-SERVICE
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: auth-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: roles-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/roles/**
+
+        - id: cart-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/cart/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: white_list-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/white_list/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: address_ORDER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/address_order/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: designer_profile-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/designer_profile/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: image_design_designer-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/image_design_designer/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: appointment-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/appointments/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: room_specifications-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/room_specifications/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: review_appointments-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/review_appointments/**
+          filters:
+            - JwtAuthenticationFilter
+
+#        PRODUCT-SERVICE
+        - id: categories-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/categories/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/products/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: product_image-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/product-images/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: cart_redis-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/cart/**
+          filters:
+            - JwtAuthenticationFilter
+
+#        ORDER-SERVICE
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orders/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: order_detail-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orderDetail/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: feedback-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/feedback/**
+          filters:
+            - JwtAuthenticationFilter
+
+#        INVENTORY-SERVICE
+        - id: INVENTORY-SERVICE
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/v1/inventory/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: blog-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/v1/blogs/**
+          filters:
+            - JwtAuthenticationFilter
+
+#        PAYMENT-SERVICE
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/v1/payment/**
+          filters:
+            - JwtAuthenticationFilter
+#        DESIGN-GALLERY-SERVICE
+        - id: category_gallery-service
+          uri: lb://DESIGN-GALLERY-SERVICE
+          predicates:
+            - Path=/api/v1/category_gallery/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: images_design-service
+          uri: lb://DESIGN-GALLERY-SERVICE
+          predicates:
+            - Path=/api/v1/images_design/**
+          filters:
+            - JwtAuthenticationFilter
+
+        - id: white_list_image_design-service
+          uri: lb://DESIGN-GALLERY-SERVICE
+          predicates:
+            - Path=/api/v1/white_list_image_design/**
+          filters:
+            - JwtAuthenticationFilter
+      globals:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowCredentials: true
+        csrf:
+          enabled: false
+
+  application:
+    name: api-gateway
+
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: http://localhost:8080/auth/keys
+
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: https://techwiz5-eureka-service-evgce8ebgtgkfshf.eastasia-01.azurewebsites.net/eureka
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.web.HttpLogging: TRACE
+    reactor.netty.http.server: DEBUG
+    reactor.netty.http.client: DEBUG
+
+jwt:
+  jwtExpirationMs: 86400000
+  secretKey: cb17bdf73fb9500c10bc64270d65efedcbdbd412c9d7a258f293e298a44dc7e5
+
+authentication:
+  enabled: true
