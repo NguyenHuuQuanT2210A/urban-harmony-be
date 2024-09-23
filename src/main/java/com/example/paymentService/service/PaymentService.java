@@ -40,7 +40,7 @@ public class PaymentService {
     private final KafkaProducer kafkaProducer;
 
     public String creatPayment( String urlReturn, String orderId) throws UnsupportedEncodingException {
-        ApiResponse<?> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+        ApiResponse<?> order = restTemplate.getForObject("https://techwiz5-order-service-dchugggwh5g9hjdx.eastasia-01.azurewebsites.net/api/v1/orders/"+ orderId, ApiResponse.class);
 //        Order order = restTemplate.getForObject("http://orderService/api/v1/order/"+ orderId, Order.class);
 //        Product product = restTemplate.getForObject("http://localhost:8083/api/v1/product/"+ order.getProductId(), Product.class);
 
@@ -120,7 +120,7 @@ public class PaymentService {
     }
 
     public void savePayment(String orderId){
-        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+        ApiResponse<OrderResponse> order = restTemplate.getForObject("https://techwiz5-order-service-dchugggwh5g9hjdx.eastasia-01.azurewebsites.net/api/v1/orders/"+ orderId, ApiResponse.class);
 
         assert order != null;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -145,7 +145,7 @@ public class PaymentService {
     }
 
     public void UpdateStatusOrder(Boolean a, String orderId){
-        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+        ApiResponse<OrderResponse> order = restTemplate.getForObject("https://techwiz5-order-service-dchugggwh5g9hjdx.eastasia-01.azurewebsites.net/api/v1/orders/"+ orderId, ApiResponse.class);
 
         assert order != null;
         ObjectMapper objectMapper = new ObjectMapper();
