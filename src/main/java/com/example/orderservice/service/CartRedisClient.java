@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "cart-redis-service", url = "http://localhost:8082/api/v1/cart",
+@FeignClient(name = "cart-redis-service", url = "https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/cart",
         configuration = { AuthenticationRequestInterceptor.class })
 public interface CartRedisClient {
     @DeleteMapping("/ids")
