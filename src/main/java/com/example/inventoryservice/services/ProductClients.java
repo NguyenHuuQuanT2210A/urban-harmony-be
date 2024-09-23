@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "productInventory-service", url = "http://localhost:8082/api/v1/products",
+@FeignClient(name = "productInventory-service", url = "https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products",
         configuration = { AuthenticationRequestInterceptor.class })
 public interface ProductClients {
     @GetMapping("/id/{id}")
