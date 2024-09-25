@@ -38,11 +38,14 @@ public class PaymentService {
     private final RestTemplate restTemplate;
     KafkaTemplate<Long, PaymentCreatedEvent> kafkaTemplate;
     private final KafkaProducer kafkaProducer;
+    private final OrderClient orderClient;
 
     public String creatPayment( String urlReturn, String orderId) throws UnsupportedEncodingException {
-        ApiResponse<?> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+//        ApiResponse<?> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
 //        Order order = restTemplate.getForObject("http://orderService/api/v1/order/"+ orderId, Order.class);
 //        Product product = restTemplate.getForObject("http://localhost:8083/api/v1/product/"+ order.getProductId(), Product.class);
+
+        ApiResponse<?> order = orderClient.getOrderById(orderId);
 
         assert order != null;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -120,7 +123,8 @@ public class PaymentService {
     }
 
     public void savePayment(String orderId){
-        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+//        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+        ApiResponse<?> order = orderClient.getOrderById(orderId);
 
         assert order != null;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -145,7 +149,8 @@ public class PaymentService {
     }
 
     public void UpdateStatusOrder(Boolean a, String orderId){
-        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+//        ApiResponse<OrderResponse> order = restTemplate.getForObject("http://localhost:8084/api/v1/orders/"+ orderId, ApiResponse.class);
+        ApiResponse<?> order = orderClient.getOrderById(orderId);
 
         assert order != null;
         ObjectMapper objectMapper = new ObjectMapper();

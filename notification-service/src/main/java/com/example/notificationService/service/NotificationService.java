@@ -24,9 +24,11 @@ public class NotificationService {
     private final EmailService emailService;
     private final RestTemplate restTemplate;
     private final OrderClient orderClient;
+    private final UserClient userClient;
 
     public void sendMailOrder(CreateEventToNotification orderSendMail) {
-        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + orderSendMail.getUserId(), ApiResponse.class);
+//        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + orderSendMail.getUserId(), ApiResponse.class);
+        ApiResponse<?> response = userClient.getUserById(orderSendMail.getUserId());
 
         assert response != null;
         ObjectMapper mapper = new ObjectMapper();
@@ -50,7 +52,8 @@ public class NotificationService {
     }
 
     public void sendMailForgotPassword(CreateEventToForgotPassword forgotPasswordEvent) {
-        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + forgotPasswordEvent.getId(), ApiResponse.class);
+//        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + forgotPasswordEvent.getId(), ApiResponse.class);
+        ApiResponse<?> response = userClient.getUserById(forgotPasswordEvent.getId());
 
         assert response != null;
         ObjectMapper mapper = new ObjectMapper();
