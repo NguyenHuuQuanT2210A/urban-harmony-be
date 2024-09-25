@@ -14,7 +14,7 @@ public class WebClientService {
     public Mono<String> getAllProducts() {
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:8089/api/v1/products")
+                .uri("https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products")
                 .retrieve()
                 .bodyToMono(String.class);
     }
@@ -22,7 +22,7 @@ public class WebClientService {
     public Mono<String> createProduct(ProductRequest product) {
         return webClientBuilder.build()
                 .post()
-                .uri("http://localhost:8089/api/v1/products")
+                .uri("https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products")
                 .body(Mono.just(product), ProductRequest.class)
                 .retrieve()
                 .bodyToMono(String.class);

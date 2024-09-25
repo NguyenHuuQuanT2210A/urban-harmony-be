@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name = "product-service", url = "http://localhost:8082/api/v1/products",
+@FeignClient(name = "product-service", url = "https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products",
         configuration = { AuthenticationRequestInterceptor.class })
 public interface FeignClientService {
 

@@ -12,12 +12,12 @@ public class RestTemplateService {
     private RestTemplate restTemplate;
 
     public String getAllProducts() {
-        String url = "http://localhost:8089/api/v1/products";
+        String url = "https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products";
         return restTemplate.getForObject(url, String.class);
     }
 
     public String createProduct(ProductRequest product) {
-        String url = "http://localhost:8089/api/v1/products";
+        String url = "https://techwiz-product-service-fpd5bedth9ckdgay.eastasia-01.azurewebsites.net/api/v1/products";
         HttpEntity<ProductRequest> request = new HttpEntity<>(product);
         return restTemplate.postForObject(url, request, String.class);
     }
