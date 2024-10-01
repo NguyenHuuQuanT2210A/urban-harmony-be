@@ -26,7 +26,7 @@ public class NotificationService {
     private final OrderClient orderClient;
 
     public void sendMailOrder(CreateEventToNotification orderSendMail) {
-        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + orderSendMail.getUserId(), ApiResponse.class);
+        ApiResponse<?> response = restTemplate.getForObject("https://techwiz5-user-service-hbereff9dmexc6er.eastasia-01.azurewebsites.net/api/v1/users/" + orderSendMail.getUserId(), ApiResponse.class);
 
         assert response != null;
         ObjectMapper mapper = new ObjectMapper();
@@ -50,7 +50,7 @@ public class NotificationService {
     }
 
     public void sendMailForgotPassword(CreateEventToForgotPassword forgotPasswordEvent) {
-        ApiResponse<?> response = restTemplate.getForObject("http://localhost:8081/api/v1/users/" + forgotPasswordEvent.getId(), ApiResponse.class);
+        ApiResponse<?> response = restTemplate.getForObject("https://techwiz5-user-service-hbereff9dmexc6er.eastasia-01.azurewebsites.net/api/v1/users/" + forgotPasswordEvent.getId(), ApiResponse.class);
 
         assert response != null;
         ObjectMapper mapper = new ObjectMapper();
