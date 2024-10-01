@@ -12,10 +12,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.*;
 
-@Component
+//@Component
 public class OrderSeeder implements CommandLineRunner {
     OrderRepository orderRepository;
     OrderDetailRepository orderDetailRepository;
@@ -45,17 +44,17 @@ public class OrderSeeder implements CommandLineRunner {
         List<OrderDetail> orderDetails = new ArrayList<>();
         boolean existProduct = false;
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 2; i++) {
             Order order = new Order();
             long total = 0;
-            int userId = faker.number().numberBetween(1, 3);
+            int userId = faker.number().numberBetween(3, 3);
             int orderDetailNumber = faker.number().numberBetween(1, 2);
 
             System.out.println(order.getId());
             order.setStatus(OrderSimpleStatus.PENDING);
             order.setUserId(userServiceClient.getUserById((long) userId).getData().getId());
             for (int j = 0; j < orderDetailNumber; j++) {
-                int productId = faker.number().numberBetween(1, 9);
+                int productId = faker.number().numberBetween(1, 5);
                 for (OrderDetail od : orderDetails) {
                     if (od.getId().getProductId() == productId && od.getOrder().getUserId() == userId) {
                         existProduct = true;
