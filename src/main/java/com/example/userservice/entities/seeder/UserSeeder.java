@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Component
+//@Component
 public class UserSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -52,7 +52,7 @@ public class UserSeeder implements CommandLineRunner {
 
         List<User> users = new ArrayList<>();
         if (role.getId() == 1) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i <= 2; i++) {
                 StringBuilder username = new StringBuilder();
                 String firstName = faker.name().firstName();
 
@@ -87,6 +87,7 @@ public class UserSeeder implements CommandLineRunner {
                     roles.add(roleDesigner);
                     user = new User(username.toString(), password, address, email.toString(), phone, roles);
                 } else {
+                    username = new StringBuilder("user");
                     user = new User(username.toString(), password, address, email.toString(), phone, roles);
                 }
                 users.add(user);
